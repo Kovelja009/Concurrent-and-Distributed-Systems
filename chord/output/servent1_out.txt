@@ -1,0 +1,23 @@
+14:54:39 - Starting servent [48|localhost|1200]
+14:54:39 - Pausing for 40000 ms
+14:54:40 - Sending message [48|1200|0||NEW_NODE|1100|28]
+14:54:41 - Got message [28|1100|0||WELCOME|1200|48]
+14:54:42 - Sending message [48|1200|1||UPDATE|1100|28]
+14:54:43 - Got message [48|1200|1|1100|UPDATE|1200|48]
+14:54:52 - Got message [4|1300|3|1100|UPDATE|1200|48]
+14:54:53 - Sending message [4|1300|2|1100,1200|UPDATE|1300|4]
+14:55:04 - Got message [24|1400|5|1100|UPDATE|1200|48]
+14:55:05 - Sending message [24|1400|3|1100,1200|UPDATE|1300|4]
+14:55:11 - Got message [0|1600|6||NEW_NODE|1200|48]
+14:55:12 - Sending message [0|1600|4||NEW_NODE|1300|4]
+14:55:17 - Got message [0|1600|7|1300,1400,1100|UPDATE|1200|48]
+14:55:18 - Sending message [0|1600|5|1300,1400,1100,1200|UPDATE|1600|0]
+14:55:19 - Pausing for 5000 ms
+14:55:20 - Got message [28|1100|8|2:5|PUT|1200|48]
+14:55:21 - Sending message [48|1200|6|2:5|PUT|1600|0]
+14:55:24 - Please wait...
+14:55:24 - Pausing for 5000 ms
+14:55:25 - Sending message [48|1200|7|2|ASK_GET|1600|0]
+14:55:27 - Got message [4|1300|6|2:5|TELL_GET|1200|48]
+14:55:27 - 2:5
+14:55:29 - Stopping...
