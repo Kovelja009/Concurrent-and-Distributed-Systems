@@ -2,6 +2,9 @@ package cli.command;
 
 import app.AppConfig;
 import app.ChordState;
+import app.ServentInfo;
+
+import java.util.List;
 
 public class DHTPutCommand implements CLICommand {
 
@@ -27,8 +30,12 @@ public class DHTPutCommand implements CLICommand {
 				if (value < 0) {
 					throw new NumberFormatException();
 				}
-				
-				AppConfig.chordState.putValue(key, value);
+
+				List<Integer> ports = AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList();
+
+				// request Suzuki-Kasami distributed lock
+				AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(ports);
+				AppConfig.chordState.putValue(key, value, AppConfig.myServentInfo.getListenerPort());
 			} catch (NumberFormatException e) {
 				AppConfig.timestampedErrorPrint("Invalid key and value pair. Both should be ints. 0 <= key <= " + ChordState.CHORD_SIZE
 						+ ". 0 <= value.");

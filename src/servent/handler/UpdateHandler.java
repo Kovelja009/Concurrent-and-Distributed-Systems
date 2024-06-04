@@ -52,7 +52,7 @@ public class UpdateHandler implements MessageHandler {
 					List<Integer> portsFromMessage = getPortsFromMessage(clientMessage.getMessageText());
 					List<Integer> rnsFromMessage = getRnsFromMessage(clientMessage.getMessageText());
 
-					AppConfig.timestampedStandardPrint("Got update image trough whole circle: " + portsFromMessage + " - " + rnsFromMessage);
+//					AppConfig.timestampedStandardPrint("Got update image trough whole circle: " + portsFromMessage + " - " + rnsFromMessage);
 
 					//////////////////////////////////////////////
 					// add info about all nodes in the system

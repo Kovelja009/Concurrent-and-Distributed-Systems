@@ -13,6 +13,7 @@ import java.util.Map;
 import app.suzuki_kasami.SuzukiKasamiUtils;
 import servent.message.AskGetMessage;
 import servent.message.PutMessage;
+import servent.message.PutUnlockMessage;
 import servent.message.WelcomeMessage;
 import servent.message.util.MessageUtil;
 
@@ -321,12 +322,21 @@ public class ChordState {
 	 * The Chord put operation. Stores locally if key is ours, otherwise sends it on.
 	 */
 	// TODO: Add backup for data by sending them to your neighbours (predecessor and successor?)
-	public void putValue(int key, int value) {
+	public void putValue(int key, int value, int port) {
 		if (isKeyMine(key)) {
 			valueMap.put(key, value);
+
+			// if we are the one putting the value, then we will unlock
+			if(port == AppConfig.myServentInfo.getListenerPort()) {
+				suzukiKasamiUtils.distributedUnlock();
+			} else { // else we will send put_unlock message to the node who requested put
+				PutUnlockMessage pum = new PutUnlockMessage(AppConfig.myServentInfo.getListenerPort(), port);
+				MessageUtil.sendMessage(pum);
+			}
+
 		} else {
 			ServentInfo nextNode = getNextNodeForKey(key);
-			PutMessage pm = new PutMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), key, value);
+			PutMessage pm = new PutMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), key, value, port);
 			MessageUtil.sendMessage(pm);
 		}
 	}

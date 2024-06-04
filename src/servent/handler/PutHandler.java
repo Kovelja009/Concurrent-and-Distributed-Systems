@@ -3,6 +3,7 @@ package servent.handler;
 import app.AppConfig;
 import servent.message.Message;
 import servent.message.MessageType;
+import servent.message.PutMessage;
 
 public class PutHandler implements MessageHandler {
 
@@ -28,8 +29,9 @@ public class PutHandler implements MessageHandler {
 					try {
 						key = Integer.parseInt(splitText[0]);
 						value = Integer.parseInt(splitText[1]);
+						int originalPort = ((PutMessage)clientMessage).getOriginalSenderPort();
 
-						AppConfig.chordState.putValue(key, value);
+						AppConfig.chordState.putValue(key, value, originalPort);
 					} catch (NumberFormatException e) {
 						AppConfig.timestampedErrorPrint("Got put message with bad text: " + clientMessage.getMessageText());
 					}

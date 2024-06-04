@@ -84,9 +84,12 @@ public class SimpleServentListener implements Runnable, Cancellable {
 				case SEND_SUZUKI_TOKEN:
 					messageHandler = new GotTokenHandler(clientMessage);
 					break;
-					case REQUEST_SUZUKI_TOKEN:
-						messageHandler = new SuzukiRequestHandler(clientMessage);
-						break;
+				case REQUEST_SUZUKI_TOKEN:
+					messageHandler = new SuzukiRequestHandler(clientMessage);
+					break;
+				case PUT_UNLOCK:
+					messageHandler = new PutUnlockHandler(clientMessage);
+					break;
 				}
 				
 				threadPool.submit(messageHandler);
