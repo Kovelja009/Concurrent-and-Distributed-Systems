@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.suzuki_kasami.SuzukiKasamiUtils;
-import servent.message.AskGetMessage;
-import servent.message.PutMessage;
-import servent.message.PutUnlockMessage;
-import servent.message.WelcomeMessage;
+import servent.message.*;
 import servent.message.util.MessageUtil;
 
 /**
@@ -316,6 +313,30 @@ public class ChordState {
 		}
 		
 		updateSuccessorTable();
+	}
+
+	/**
+	 * The Chord delete operation. Deletes locally if key is ours, otherwise sends it on.
+	 */
+	// TODO: delete backup at neighbour also
+	public void deleteValue(int key, int value, int port){
+		if(isKeyMine(key)){
+			int deleted = valueMap.remove(key);
+
+			// if we are the one deleting the value, then we will unlock
+			if(port == AppConfig.myServentInfo.getListenerPort()) {
+				suzukiKasamiUtils.distributedUnlock();
+				AppConfig.timestampedStandardPrint("DELETE: " + deleted);
+			} else { // else we will send delete_unlock message to the node who requested put
+				DeleteUnlockMessage dum = new DeleteUnlockMessage(AppConfig.myServentInfo.getListenerPort(), port, deleted);
+				MessageUtil.sendMessage(dum);
+			}
+		} else {
+			ServentInfo nextNode = getNextNodeForKey(key);
+			DeleteMessage dm = new DeleteMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), key, value, port);
+			MessageUtil.sendMessage(dm);
+
+		}
 	}
 
 	/**
