@@ -350,7 +350,12 @@ public class ChordState {
 	 *		   </ul>
 	 */
 	public int getValue(int key) {
+		// distributed lock
+		suzukiKasamiUtils.distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
+
 		if (isKeyMine(key)) {
+			// distributed unlock (it was mine to begin with, so I can unlock it now)
+			suzukiKasamiUtils.distributedUnlock();
 			if (valueMap.containsKey(key)) {
 				return valueMap.get(key);
 			} else {

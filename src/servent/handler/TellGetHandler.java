@@ -18,6 +18,9 @@ public class TellGetHandler implements MessageHandler {
 
 
 			if (clientMessage.getMessageType() == MessageType.TELL_GET) {
+				// distributed unlock
+				AppConfig.chordState.getSuzukiKasamiUtils().distributedUnlock();
+
 				String parts[] = clientMessage.getMessageText().split(":");
 
 				if (parts.length == 2) {
