@@ -9,15 +9,7 @@ import java.util.concurrent.Executors;
 
 import app.AppConfig;
 import app.Cancellable;
-import servent.handler.AskGetHandler;
-import servent.handler.MessageHandler;
-import servent.handler.NewNodeHandler;
-import servent.handler.NullHandler;
-import servent.handler.PutHandler;
-import servent.handler.SorryHandler;
-import servent.handler.TellGetHandler;
-import servent.handler.UpdateHandler;
-import servent.handler.WelcomeHandler;
+import servent.handler.*;
 import servent.message.Message;
 import servent.message.util.MessageUtil;
 
@@ -89,6 +81,12 @@ public class SimpleServentListener implements Runnable, Cancellable {
 					break;
 				case POISON:
 					break;
+				case SEND_SUZUKI_TOKEN:
+					messageHandler = new GotTokenHandler(clientMessage);
+					break;
+					case REQUEST_SUZUKI_TOKEN:
+						messageHandler = new SuzukiRequestHandler(clientMessage);
+						break;
 				}
 				
 				threadPool.submit(messageHandler);

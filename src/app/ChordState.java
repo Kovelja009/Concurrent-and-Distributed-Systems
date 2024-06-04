@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.suzuki_kasami.SuzukiKasamiUtils;
 import servent.message.AskGetMessage;
 import servent.message.PutMessage;
 import servent.message.WelcomeMessage;
@@ -52,6 +53,8 @@ public class ChordState {
 	
 	//we DO NOT use this to send messages, but only to construct the successor table
 	private List<ServentInfo> allNodeInfo;
+
+	private SuzukiKasamiUtils suzukiKasamiUtils;
 	
 	private Map<Integer, Integer> valueMap;
 	
@@ -74,6 +77,8 @@ public class ChordState {
 		predecessorInfo = null;
 		valueMap = new HashMap<>();
 		allNodeInfo = new ArrayList<>();
+
+		suzukiKasamiUtils = new SuzukiKasamiUtils(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
 	}
 	
 	/**
@@ -129,7 +134,11 @@ public class ChordState {
 	public void setValueMap(Map<Integer, Integer> valueMap) {
 		this.valueMap = valueMap;
 	}
-	
+
+	public SuzukiKasamiUtils getSuzukiKasamiUtils() {
+		return suzukiKasamiUtils;
+	}
+
 	public boolean isCollision(int chordId) {
 		if (chordId == AppConfig.myServentInfo.getChordId()) {
 			return true;
@@ -311,6 +320,7 @@ public class ChordState {
 	/**
 	 * The Chord put operation. Stores locally if key is ours, otherwise sends it on.
 	 */
+	// TODO: Add backup for data by sending them to your neighbours (predecessor and successor?)
 	public void putValue(int key, int value) {
 		if (isKeyMine(key)) {
 			valueMap.put(key, value);
@@ -343,6 +353,10 @@ public class ChordState {
 		MessageUtil.sendMessage(agm);
 		
 		return -2;
+	}
+
+	public List<ServentInfo> getAllNodeInfo() {
+		return allNodeInfo;
 	}
 
 }

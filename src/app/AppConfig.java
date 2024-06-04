@@ -97,25 +97,25 @@ public class AppConfig {
 			int chordSize = Integer.parseInt(properties.getProperty("chord_size"));
 			
 			ChordState.CHORD_SIZE = chordSize;
-			chordState = new ChordState();
-			
+
 		} catch (NumberFormatException e) {
 			timestampedErrorPrint("Problem reading chord_size. Must be a number that is a power of 2. Exiting...");
 			System.exit(0);
 		}
-		
+
 		String portProperty = "servent"+serventId+".port";
-		
+
 		int serventPort = -1;
-		
+
 		try {
 			serventPort = Integer.parseInt(properties.getProperty(portProperty));
 		} catch (NumberFormatException e) {
 			timestampedErrorPrint("Problem reading " + portProperty + ". Exiting...");
 			System.exit(0);
 		}
-		
+
 		myServentInfo = new ServentInfo("localhost", serventPort);
+		chordState = new ChordState();
 	}
-	
+
 }

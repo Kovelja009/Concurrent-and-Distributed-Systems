@@ -14,26 +14,32 @@ public class TellGetHandler implements MessageHandler {
 	
 	@Override
 	public void run() {
-		if (clientMessage.getMessageType() == MessageType.TELL_GET) {
-			String parts[] = clientMessage.getMessageText().split(":");
-			
-			if (parts.length == 2) {
-				try {
-					int key = Integer.parseInt(parts[0]);
-					int value = Integer.parseInt(parts[1]);
-					if (value == -1) {
-						AppConfig.timestampedStandardPrint("No such key: " + key);
-					} else {
-						AppConfig.timestampedStandardPrint(clientMessage.getMessageText());
+		try {
+
+
+			if (clientMessage.getMessageType() == MessageType.TELL_GET) {
+				String parts[] = clientMessage.getMessageText().split(":");
+
+				if (parts.length == 2) {
+					try {
+						int key = Integer.parseInt(parts[0]);
+						int value = Integer.parseInt(parts[1]);
+						if (value == -1) {
+							AppConfig.timestampedStandardPrint("No such key: " + key);
+						} else {
+							AppConfig.timestampedStandardPrint("TELL GET INFO: " + clientMessage.getMessageText());
+						}
+					} catch (NumberFormatException e) {
+						AppConfig.timestampedErrorPrint("Got TELL_GET message with bad text: " + clientMessage.getMessageText());
 					}
-				} catch (NumberFormatException e) {
+				} else {
 					AppConfig.timestampedErrorPrint("Got TELL_GET message with bad text: " + clientMessage.getMessageText());
 				}
 			} else {
-				AppConfig.timestampedErrorPrint("Got TELL_GET message with bad text: " + clientMessage.getMessageText());
+				AppConfig.timestampedErrorPrint("Tell get handler got a message that is not TELL_GET");
 			}
-		} else {
-			AppConfig.timestampedErrorPrint("Tell get handler got a message that is not TELL_GET");
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

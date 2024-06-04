@@ -23,7 +23,7 @@ public class AskGetHandler implements MessageHandler {
 		if (clientMessage.getMessageType() == MessageType.ASK_GET) {
 			try {
 				int key = Integer.parseInt(clientMessage.getMessageText());
-				if (AppConfig.chordState.isKeyMine(key)) {
+				if (AppConfig.chordState.isKeyMine(key)) { // if I should have this key
 					Map<Integer, Integer> valueMap = AppConfig.chordState.getValueMap(); 
 					int value = -1;
 					
@@ -34,13 +34,15 @@ public class AskGetHandler implements MessageHandler {
 					TellGetMessage tgm = new TellGetMessage(AppConfig.myServentInfo.getListenerPort(), clientMessage.getSenderPort(),
 															key, value);
 					MessageUtil.sendMessage(tgm);
-				} else {
+				} else { // If I don't have this key, then propagate the request through the network
 					ServentInfo nextNode = AppConfig.chordState.getNextNodeForKey(key);
 					AskGetMessage agm = new AskGetMessage(clientMessage.getSenderPort(), nextNode.getListenerPort(), clientMessage.getMessageText());
 					MessageUtil.sendMessage(agm);
 				}
 			} catch (NumberFormatException e) {
 				AppConfig.timestampedErrorPrint("Got ask get with bad text: " + clientMessage.getMessageText());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 		} else {

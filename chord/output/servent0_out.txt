@@ -1,25 +1,21 @@
-14:54:29 - Starting servent [28|localhost|1100]
-14:54:29 - Pausing for 50000 ms
-14:54:29 - First node in Chord system.
-14:54:40 - Got message [48|1200|0||NEW_NODE|1100|28]
-14:54:41 - Sending message [28|1100|0||WELCOME|1200|48]
-14:54:42 - Got message [48|1200|1||UPDATE|1100|28]
-14:54:43 - Sending message [48|1200|1|1100|UPDATE|1200|48]
-14:54:50 - Got message [4|1300|0||NEW_NODE|1100|28]
-14:54:51 - Sending message [28|1100|2||WELCOME|1300|4]
-14:54:51 - Got message [4|1300|1||UPDATE|1100|28]
-14:54:52 - Sending message [4|1300|3|1100|UPDATE|1200|48]
-14:55:01 - Got message [24|1400|2||NEW_NODE|1100|28]
-14:55:02 - Sending message [28|1100|4||WELCOME|1400|24]
-14:55:04 - Got message [24|1400|1||UPDATE|1100|28]
-14:55:04 - Sending message [24|1400|5|1100|UPDATE|1200|48]
-14:55:10 - Got message [0|1600|0||NEW_NODE|1100|28]
-14:55:11 - Sending message [0|1600|6||NEW_NODE|1200|48]
-14:55:16 - Got message [0|1600|2|1300,1400|UPDATE|1100|28]
-14:55:17 - Sending message [0|1600|7|1300,1400,1100|UPDATE|1200|48]
-14:55:19 - Pausing for 10000 ms
-14:55:20 - Sending message [28|1100|8|2:5|PUT|1200|48]
-14:55:21 - Got message [24|1400|3|25:3|PUT|1100|28]
-14:55:25 - Got message [0|1600|4|25|ASK_GET|1100|28]
-14:55:26 - Sending message [28|1100|9|25:3|TELL_GET|1600|0]
-14:55:29 - Stopping...
+16:53:51 - Starting servent [28|localhost|1100]
+16:53:51 - Pausing for 50000 ms
+16:54:10 - Requiring Suzuki-Kasami token
+16:54:11 - Sending message [28|1100|1||REQUEST_SUZUKI_TOKEN|1400|24]
+16:54:11 - Sending message [28|1100|3||REQUEST_SUZUKI_TOKEN|1200|48]
+16:54:12 - Sending message [28|1100|0||REQUEST_SUZUKI_TOKEN|1300|4]
+16:54:12 - Sending message [28|1100|2||REQUEST_SUZUKI_TOKEN|1600|0]
+16:54:16 - Got message [48|1200|5||SEND_SUZUKI_TOKEN|1100|28]
+16:54:16 - Got token
+16:54:17 - Sending message [28|1100|4||NEW_NODE|1200|48]
+16:54:17 - Got message [48|1200|6||WELCOME|1100|28]
+16:54:17 - Sending first update message: _-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
+16:54:19 - Sending message [28|1100|5|_-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
+16:54:24 - Got message [28|1100|8|1200,1600,1300,1400-|1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1100|28]
+16:54:24 - Got update image trough whole circle: [1200, 1600, 1300, 1400] - [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+16:54:41 - Pausing for 10000 ms
+16:54:42 - Sending message [28|1100|6|2:5|PUT|1200|48]
+16:54:43 - Got message [24|1400|9|25:3|PUT|1100|28]
+16:54:47 - Got message [0|1600|10|25|ASK_GET|1100|28]
+16:54:47 - Sending message [28|1100|7|25:3|TELL_GET|1600|0]
+16:54:51 - Stopping...
