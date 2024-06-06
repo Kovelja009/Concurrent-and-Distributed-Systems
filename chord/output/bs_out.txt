@@ -1,19 +1,19 @@
-22:51:04 - Bootstrap server started on port: 2000
-22:51:06 - Adding first node: 1200
-22:51:06 - Released sync: first node
-22:51:06 - Sending message to 1300: 1200_|1200|
+16:19:21 - Bootstrap server started on port: 2000
+16:19:23 - Adding first node: 1100
+16:19:23 - Released sync: first node
+16:19:23 - Sending message to 1300: 1100_|1100|
 
-22:51:07 - Adding: 1300
-22:51:07 - Released sync: 1300
-22:51:07 - Sending message to 1400: 1200_|1200,1300|
+16:19:24 - Adding: 1300
+16:19:24 - Released sync: 1300
+16:19:24 - Sending message to 1600: 1100_|1100,1300|
 
-22:51:07 - Adding: 1400
-22:51:07 - Released sync: 1400
-22:51:07 - Sending message to 1600: 1200_|1200,1300,1400|
+16:19:24 - Adding: 1600
+16:19:24 - Released sync: 1600
+16:19:24 - Sending message to 1200: 1600_|1100,1300,1600|
 
-22:51:08 - Adding: 1600
-22:51:08 - Released sync: 1600
-22:51:08 - Sending message to 1100: 1200_|1200,1300,1400,1600|
+16:19:25 - Adding: 1200
+16:19:25 - Released sync: 1200
+16:19:25 - Sending message to 1400: 1300_|1100,1300,1600,1200|
 
-22:51:09 - Adding: 1100
-22:51:09 - Released sync: 1100
+16:19:26 - Adding: 1400
+16:19:26 - Released sync: 1400

@@ -19,6 +19,8 @@ public class AppConfig {
 	 * Convenience access for this servent's information
 	 */
 	public static ServentInfo myServentInfo;
+
+	public static String rootPath;
 	
 	/**
 	 * Print a message to stdout with a timestamp
@@ -114,8 +116,38 @@ public class AppConfig {
 			System.exit(0);
 		}
 
+		try {
+			rootPath = properties.getProperty("root_path");
+		} catch (Exception e) {
+			timestampedErrorPrint("Problem reading root_path. Exiting...");
+			System.exit(0);
+		}
+
 		myServentInfo = new ServentInfo("localhost", serventPort);
 		chordState = new ChordState();
+	}
+
+
+	public static boolean isFileValid(String pathFromRoot) {
+		try {
+			// concat root path with the path from root
+			File file = new File(rootPath + "/" + pathFromRoot);
+			return file.exists() && !file.isDirectory();
+		} catch (Exception e) {
+			AppConfig.timestampedErrorPrint("Error while checking file validity for path: " + pathFromRoot);
+			return false;
+		}
+	}
+
+	public static String readTextFile(String pathFromRoot) {
+		try {
+			File file = new File(rootPath + "/" + pathFromRoot);
+			byte[] encoded = java.nio.file.Files.readAllBytes(file.toPath());
+			return new String(encoded);
+		} catch (IOException e) {
+			AppConfig.timestampedErrorPrint("Error while reading file: " + pathFromRoot);
+			return null;
+		}
 	}
 
 }

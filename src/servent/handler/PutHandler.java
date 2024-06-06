@@ -18,28 +18,15 @@ public class PutHandler implements MessageHandler {
 	// TODO: adopt so that we can send String path to the file
 	public void run() {
 		try {
-
-
 			if (clientMessage.getMessageType() == MessageType.PUT) {
-				String[] splitText = clientMessage.getMessageText().split(":");
-				if (splitText.length == 2) {
-					int key = 0;
-					int value = 0;
+				PutMessage putMessage = (PutMessage) clientMessage;
 
-					try {
-						key = Integer.parseInt(splitText[0]);
-						value = Integer.parseInt(splitText[1]);
-						int originalPort = ((PutMessage)clientMessage).getOriginalSenderPort();
+				int key = putMessage.getKey();
+				String value = putMessage.getPath();
+				int originalPort = putMessage.getOriginalSenderPort();
+				boolean isPublic = putMessage.isPublic();
 
-						AppConfig.chordState.putValue(key, value, originalPort);
-					} catch (NumberFormatException e) {
-						AppConfig.timestampedErrorPrint("Got put message with bad text: " + clientMessage.getMessageText());
-					}
-				} else {
-					AppConfig.timestampedErrorPrint("Got put message with bad text: " + clientMessage.getMessageText());
-				}
-
-
+				AppConfig.chordState.putValue(key, value, originalPort, isPublic);
 			} else {
 				AppConfig.timestampedErrorPrint("Put handler got a message that is not PUT");
 			}

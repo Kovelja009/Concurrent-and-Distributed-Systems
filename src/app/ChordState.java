@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import app.suzuki_kasami.SuzukiKasamiUtils;
 import servent.message.*;
@@ -53,8 +54,13 @@ public class ChordState {
 	private List<ServentInfo> allNodeInfo;
 
 	private SuzukiKasamiUtils suzukiKasamiUtils;
-	
-	private Map<Integer, Integer> valueMap;
+
+	// list of friends (represents which nodes that I can read private files from)
+	// must be concurrent safe
+	private List<Integer> friends;
+
+	// TODO: pay attention that inner hashmap can be NULL !!
+	private Map<Integer, Map<String, MetaFile>> valueMap;
 	
 	public ChordState() {
 		this.chordLevel = 1;
@@ -77,6 +83,7 @@ public class ChordState {
 		allNodeInfo = new ArrayList<>();
 
 		suzukiKasamiUtils = new SuzukiKasamiUtils(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
+		friends = new CopyOnWriteArrayList<>();
 	}
 	
 	/**
@@ -125,11 +132,11 @@ public class ChordState {
 		this.predecessorInfo = newNodeInfo;
 	}
 
-	public Map<Integer, Integer> getValueMap() {
+	public Map<Integer, Map<String, MetaFile>> getValueMap() {
 		return valueMap;
 	}
 	
-	public void setValueMap(Map<Integer, Integer> valueMap) {
+	public void setValueMap(Map<Integer, Map<String, MetaFile>> valueMap) {
 		this.valueMap = valueMap;
 	}
 
@@ -319,16 +326,36 @@ public class ChordState {
 	 * The Chord delete operation. Deletes locally if key is ours, otherwise sends it on.
 	 */
 	// TODO: delete backup at neighbour also
-	public void deleteValue(int key, int value, int port){
+	public void deleteValue(int key, String value, int port){
 		if(isKeyMine(key)){
-			int deleted = valueMap.remove(key);
+			//////////////////////////////////
+			Map<String, MetaFile> map = valueMap.get(key);
+			MetaFile deleted = null;
+			int res;
+
+			if(map == null) {
+				AppConfig.timestampedStandardPrint("DELETE: map is null");
+				res = -2;
+			} else {
+				// we can delete only if we are the owner of the file
+				boolean canDelete = map.get(value).getOwnerPort() == port;
+				if (canDelete){
+					deleted = map.remove(value);
+					AppConfig.timestampedStandardPrint("DELETE: " + deleted.getPath() + " owned by: " + deleted.getOwnerPort());
+					res = 0;
+				} else {
+					// we are not the owner of the file
+					AppConfig.timestampedStandardPrint("DELETE: " + value + " is not owned by " + port + " hence cannot be deleted");
+					res = -1;
+				}
+			}
+			//////////////////////////////////
 
 			// if we are the one deleting the value, then we will unlock
 			if(port == AppConfig.myServentInfo.getListenerPort()) {
 				suzukiKasamiUtils.distributedUnlock();
-				AppConfig.timestampedStandardPrint("DELETE: " + deleted);
-			} else { // else we will send delete_unlock message to the node who requested put
-				DeleteUnlockMessage dum = new DeleteUnlockMessage(AppConfig.myServentInfo.getListenerPort(), port, deleted);
+			} else { // else we will send delete_unlock message to the node who requested delete
+				DeleteUnlockMessage dum = new DeleteUnlockMessage(AppConfig.myServentInfo.getListenerPort(), port, value, res);
 				MessageUtil.sendMessage(dum);
 			}
 		} else {
@@ -343,9 +370,20 @@ public class ChordState {
 	 * The Chord put operation. Stores locally if key is ours, otherwise sends it on.
 	 */
 	// TODO: Add backup for data by sending them to your neighbours (predecessor and successor?)
-	public void putValue(int key, int value, int port) {
+	public void putValue(int key, String value, int port, boolean isPublic) {
 		if (isKeyMine(key)) {
-			valueMap.put(key, value);
+			//////////////////////////////////////////////////////
+			// get map for the key or create new map if it doesn't exist
+			Map<String, MetaFile> map = valueMap.get(key);
+			if (map == null) {
+				map = new HashMap<>();
+				valueMap.put(key, map);
+			}
+
+			// create new MetaFile object and put it in the map
+			MetaFile metaFile = new MetaFile(value, port, isPublic);
+			map.put(value, metaFile);
+			//////////////////////////////////////////////////////
 
 			// if we are the one putting the value, then we will unlock
 			if(port == AppConfig.myServentInfo.getListenerPort()) {
@@ -357,7 +395,7 @@ public class ChordState {
 
 		} else {
 			ServentInfo nextNode = getNextNodeForKey(key);
-			PutMessage pm = new PutMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), key, value, port);
+			PutMessage pm = new PutMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), key, port, value, isPublic);
 			MessageUtil.sendMessage(pm);
 		}
 	}
@@ -370,29 +408,53 @@ public class ChordState {
 	 *			<li>-2 if we asked someone else</li>
 	 *		   </ul>
 	 */
-	public int getValue(int key) {
+
+	// TODO: add logic for checking whether the file can be seen by us or not
+	public MetaFile getValue(int key, String path) {
 		// distributed lock
 		suzukiKasamiUtils.distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
 
 		if (isKeyMine(key)) {
 			// distributed unlock (it was mine to begin with, so I can unlock it now)
 			suzukiKasamiUtils.distributedUnlock();
-			if (valueMap.containsKey(key)) {
-				return valueMap.get(key);
-			} else {
-				return -1;
-			}
+
+			MetaFile notFound = new MetaFile(path, -1, false);
+			if (valueMap.containsKey(key)) // we have hashmap for the key
+                return valueMap.get(key).getOrDefault(path, notFound);
+			else // hashmap in null
+				return notFound;
 		}
 		
 		ServentInfo nextNode = getNextNodeForKey(key);
-		AskGetMessage agm = new AskGetMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), String.valueOf(key));
+		AskGetMessage agm = new AskGetMessage(AppConfig.myServentInfo.getListenerPort(), nextNode.getListenerPort(), key, path);
 		MessageUtil.sendMessage(agm);
 		
-		return -2;
+		return new MetaFile(path, -2, false);
+	}
+
+	public void addFriend(int port) {
+		friends.add(port);
+	}
+
+
+	public List<Integer> getFriends() {
+		return friends;
+	}
+
+	public boolean canRead(MetaFile file) {
+		return file.isPublic() || amSubscribed(file.getOwnerPort());
+	}
+
+	private boolean amSubscribed(int port){
+		return friends.contains(port);
 	}
 
 	public List<ServentInfo> getAllNodeInfo() {
 		return allNodeInfo;
+	}
+
+	public Integer hashFileName(String path) {
+		return path.hashCode() % CHORD_SIZE;
 	}
 
 }

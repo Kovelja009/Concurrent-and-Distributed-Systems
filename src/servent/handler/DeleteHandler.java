@@ -17,22 +17,13 @@ public class DeleteHandler implements MessageHandler {
         public void run() {
             try {
                 if (clientMessage.getMessageType() == MessageType.DELETE) {
-                    String[] splitText = clientMessage.getMessageText().split(":");
-                    if (splitText.length == 2) {
-                        int key = 0;
-                        int value = 0;
-                        try {
-                            key = Integer.parseInt(splitText[0]);
-                            value = Integer.parseInt(splitText[1]);
-                            int originalPort = ((DeleteMessage)clientMessage).getOriginalSenderPort();
+                    DeleteMessage dm = (DeleteMessage) clientMessage;
 
-                            AppConfig.chordState.deleteValue(key, value, originalPort);
-                        } catch (NumberFormatException e) {
-                            AppConfig.timestampedErrorPrint("Got delete message with bad text: " + clientMessage.getMessageText());
-                        }
-                    } else {
-                        AppConfig.timestampedErrorPrint("Got delete message with bad text: " + clientMessage.getMessageText());
-                    }
+                    int key = dm.getKey();
+                    String value = dm.getPath();
+                    int originalPort = dm.getOriginalSenderPort();
+
+                    AppConfig.chordState.deleteValue(key, value, originalPort);
                 } else {
                     AppConfig.timestampedErrorPrint("Delete handler got a message that is not DELETE");
                 }

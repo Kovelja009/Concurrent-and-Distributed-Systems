@@ -10,38 +10,35 @@ public class DHTPutCommand implements CLICommand {
 
 	@Override
 	public String commandName() {
-		return "dht_put";
+		return "add_file";
 	}
 
 	@Override
 	public void execute(String args) {
 		String[] splitArgs = args.split(" ");
+		if (splitArgs.length != 2) {
+			AppConfig.timestampedErrorPrint("PUT COMMAND: Invalid number of arguments. Should be 2.");
+			return;
+		}
+
+		String path = splitArgs[0];
+		boolean isPublic = splitArgs[1].equalsIgnoreCase("public");
+
+		// check if second arg is public/private (equals ignore case) and if it isn't print error, but if it is
+		if (!isPublic && !splitArgs[1].equalsIgnoreCase("private")) {
+			AppConfig.timestampedErrorPrint("PUT COMMAND: Invalid second argument. Should be 'public' or 'private'.");
+			return;
+		}
 		
-		if (splitArgs.length == 2) {
-			int key = 0;
-			int value = 0;
-			try {
-				key = Integer.parseInt(splitArgs[0]);
-				value = Integer.parseInt(splitArgs[1]);
-				
-				if (key < 0 || key >= ChordState.CHORD_SIZE) {
-					throw new NumberFormatException();
-				}
-				if (value < 0) {
-					throw new NumberFormatException();
-				}
+		if (AppConfig.isFileValid(path)) {
+			int key = AppConfig.chordState.hashFileName(path);
 
-				List<Integer> ports = AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList();
+			// request Suzuki-Kasami distributed lock
+			AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
 
-				// request Suzuki-Kasami distributed lock
-				AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(ports);
-				AppConfig.chordState.putValue(key, value, AppConfig.myServentInfo.getListenerPort());
-			} catch (NumberFormatException e) {
-				AppConfig.timestampedErrorPrint("Invalid key and value pair. Both should be ints. 0 <= key <= " + ChordState.CHORD_SIZE
-						+ ". 0 <= value.");
-			}
+			AppConfig.chordState.putValue(key, path, AppConfig.myServentInfo.getListenerPort(), isPublic);
 		} else {
-			AppConfig.timestampedErrorPrint("Invalid arguments for put");
+			AppConfig.timestampedErrorPrint("PUT COMMAND: Invalid file path: " + path);
 		}
 
 	}

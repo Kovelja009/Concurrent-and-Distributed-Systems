@@ -2,15 +2,21 @@ package servent.message;
 
 public class DeleteUnlockMessage extends BasicMessage{
     private static final long serialVersionUID = 1338L;
-    private int valueDeleted;
+    private String path;
+    private int result;
 
 
-    public DeleteUnlockMessage(int senderPort, int receiverPort, int valueDeleted) {
+    public DeleteUnlockMessage(int senderPort, int receiverPort, String path, int result) {
         super(MessageType.DELETE_UNLOCK, senderPort, receiverPort);
-        this.valueDeleted = valueDeleted;
+        this.path = path;
+        this.result = result;
     }
 
-    public int getValueDeleted() {
-        return valueDeleted;
+    public String getPath() {
+        return path;
+    }
+
+    public int getResult() {
+        return result;
     }
 }

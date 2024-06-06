@@ -42,6 +42,7 @@ public class CLIParser implements Runnable, Cancellable {
 		commandList.add(new DHTGetCommand());
 		commandList.add(new DHTPutCommand());
 		commandList.add(new DHTDeleteCommand());
+		commandList.add(new DHTFriendCommand());
 		commandList.add(new StopCommand(this, listener));
 	}
 	

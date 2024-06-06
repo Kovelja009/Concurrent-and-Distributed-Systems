@@ -3,6 +3,7 @@ package servent.handler;
 import java.util.Map;
 
 import app.AppConfig;
+import app.MetaFile;
 import app.ServentInfo;
 import servent.message.AskGetMessage;
 import servent.message.Message;
@@ -22,25 +23,29 @@ public class AskGetHandler implements MessageHandler {
 	public void run() {
 		if (clientMessage.getMessageType() == MessageType.ASK_GET) {
 			try {
-				int key = Integer.parseInt(clientMessage.getMessageText());
+				AskGetMessage askGetMessage = (AskGetMessage) clientMessage;
+
+				int key = askGetMessage.getKey();
+				String path = askGetMessage.getPath();
+
 				if (AppConfig.chordState.isKeyMine(key)) { // if I should have this key
-					Map<Integer, Integer> valueMap = AppConfig.chordState.getValueMap(); 
-					int value = -1;
-					
-					if (valueMap.containsKey(key)) {
-						value = valueMap.get(key);
-					}
-					
+					MetaFile resultFile;
+					MetaFile notFound = new MetaFile("not_found", -1, false);
+
+					// we have the hashmap
+					if(AppConfig.chordState.getValueMap().containsKey(key))
+						resultFile = AppConfig.chordState.getValueMap().get(key).getOrDefault(path, notFound);
+					else
+						resultFile = notFound;
+
 					TellGetMessage tgm = new TellGetMessage(AppConfig.myServentInfo.getListenerPort(), clientMessage.getSenderPort(),
-															key, value);
+															key, resultFile);
 					MessageUtil.sendMessage(tgm);
 				} else { // If I don't have this key, then propagate the request through the network
 					ServentInfo nextNode = AppConfig.chordState.getNextNodeForKey(key);
-					AskGetMessage agm = new AskGetMessage(clientMessage.getSenderPort(), nextNode.getListenerPort(), clientMessage.getMessageText());
+					AskGetMessage agm = new AskGetMessage(clientMessage.getSenderPort(), nextNode.getListenerPort(), key, path);
 					MessageUtil.sendMessage(agm);
 				}
-			} catch (NumberFormatException e) {
-				AppConfig.timestampedErrorPrint("Got ask get with bad text: " + clientMessage.getMessageText());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -1,8 +1,10 @@
 package servent.handler;
 
 import app.AppConfig;
+import app.MetaFile;
 import servent.message.Message;
 import servent.message.MessageType;
+import servent.message.TellGetMessage;
 
 public class TellGetHandler implements MessageHandler {
 
@@ -21,22 +23,16 @@ public class TellGetHandler implements MessageHandler {
 				// distributed unlock
 				AppConfig.chordState.getSuzukiKasamiUtils().distributedUnlock();
 
-				String parts[] = clientMessage.getMessageText().split(":");
+				MetaFile metaFile = ((TellGetMessage) clientMessage).getMetaFile();
 
-				if (parts.length == 2) {
-					try {
-						int key = Integer.parseInt(parts[0]);
-						int value = Integer.parseInt(parts[1]);
-						if (value == -1) {
-							AppConfig.timestampedStandardPrint("No such key: " + key);
-						} else {
-							AppConfig.timestampedStandardPrint("TELL GET INFO: " + clientMessage.getMessageText());
-						}
-					} catch (NumberFormatException e) {
-						AppConfig.timestampedErrorPrint("Got TELL_GET message with bad text: " + clientMessage.getMessageText());
-					}
-				} else {
-					AppConfig.timestampedErrorPrint("Got TELL_GET message with bad text: " + clientMessage.getMessageText());
+				// file not found
+				if(metaFile.getOwnerPort() == -1)
+					AppConfig.timestampedStandardPrint("File with path {" + metaFile.getPath() + "} not found!");
+				else{
+					if(AppConfig.chordState.canRead(metaFile))
+						AppConfig.timestampedStandardPrint("File {" + metaFile.getPath() + "} CONTENT -> " + AppConfig.readTextFile(metaFile.getPath()));
+					else
+						AppConfig.timestampedStandardPrint("Don't have permission to read file: " + metaFile.getPath());
 				}
 			} else {
 				AppConfig.timestampedErrorPrint("Tell get handler got a message that is not TELL_GET");
