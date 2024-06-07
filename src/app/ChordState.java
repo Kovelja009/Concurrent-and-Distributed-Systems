@@ -364,6 +364,7 @@ public class ChordState {
 		if (isKeyMine(key)) {
 			// putting value into hashmap
 			MetaFile metaFile = putIntoHashMap(key, value, port, isPublic);
+			AppConfig.timestampedStandardPrint("ADDED FILE: {" + metaFile.getPath() + "} owned by: " + metaFile.getOwnerPort());
 
 			// send value to neighbours (predecessor and successor)
 			sendingToNeighbours(metaFile);

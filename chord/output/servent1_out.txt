@@ -1,64 +1,58 @@
-12:46:59 - Starting servent [48|localhost|1200]
-12:46:59 - Pausing for 5000 ms
-12:46:59 - Requiring Suzuki-Kasami token
-12:46:59 - Sending message [48|1200|0||REQUEST_SUZUKI_TOKEN|1100|28]
-12:46:59 - Got message [28|1100|0||SEND_SUZUKI_TOKEN|1200|48]
-12:46:59 - Got token
-12:46:59 - Sending message [48|1200|1||NEW_NODE|1100|28]
-12:46:59 - Got message [28|1100|1||WELCOME|1200|48]
-12:46:59 - Sending first update message: _-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
-12:46:59 - Sending message [48|1200|2|_-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1100|28]
-12:47:00 - Got message [48|1200|2|1100-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
-12:47:00 - Got message [24|1400|1||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:00 - Sending message [48|1200|3||SEND_SUZUKI_TOKEN|1400|24]
-12:47:00 - Got message [24|1400|2||NEW_NODE|1200|48]
-12:47:00 - Sending message [24|1400|4||NEW_NODE|1100|28]
-12:47:01 - Got message [24|1400|4|1100-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
-12:47:01 - Sending message [24|1400|5|1100,1200-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1400|24]
-12:47:01 - Got message [4|1300|1||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:01 - Got message [4|1300|5||NEW_NODE|1200|48]
-12:47:01 - Sending message [4|1300|6||NEW_NODE|1400|24]
-12:47:01 - Got message [0|1600|1||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:01 - Got message [4|1300|6|1400,1100-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
-12:47:02 - Sending message [4|1300|7|1400,1100,1200-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1300|4]
-12:47:02 - Got message [0|1600|7||NEW_NODE|1200|48]
-12:47:02 - Sending message [0|1600|8||NEW_NODE|1300|4]
-12:47:02 - Got message [0|1600|8|1300,1400,1100-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
-12:47:02 - Sending message [0|1600|9|1300,1400,1100,1200-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1600|0]
-12:47:04 - Pausing for 5000 ms
-12:47:04 - Got message [28|1100|9||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:04 - Got message [4|1300|10||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:04 - Got message [0|1600|9||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:04 - Got message [0|1600|10|file4.txt|BACKUP|1200|48]
-12:47:04 - Backup of file {file4.txt} completed.
-12:47:04 - Got message [28|1100|13|-7:file3.txt|PUT|1200|48]
-12:47:04 - Sending message [48|1200|10|-7:file3.txt|PUT|1600|0]
-12:47:04 - Got message [0|1600|13|file3.txt|BACKUP|1200|48]
-12:47:04 - Backup of file {file3.txt} completed.
-12:47:05 - Got message [4|1300|15|-7:file3.txt|ASK_GET|1200|48]
-12:47:05 - Sending message [4|1300|11|-7:file3.txt|ASK_GET|1600|0]
-12:47:06 - Got message [24|1400|10||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:06 - Got message [24|1400|16|-6:file4.txt|ASK_GET|1200|48]
-12:47:06 - Sending message [24|1400|12|-6:file4.txt|ASK_GET|1600|0]
-12:47:08 - Got message [0|1600|21||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:08 - Got message [0|1600|25||REQUEST_SUZUKI_TOKEN|1200|48]
-12:47:08 - Got message [0|1600|26|-6:file4.txt|DELETE_BACKUP|1200|48]
-12:47:08 - DELETED BACKUP: file4.txt owned by: 1600
-12:47:09 - Sending message [48|1200|15||REQUEST_SUZUKI_TOKEN|1400|24]
-12:47:09 - Sending message [48|1200|16||REQUEST_SUZUKI_TOKEN|1100|28]
-12:47:09 - Sending message [48|1200|13||REQUEST_SUZUKI_TOKEN|1600|0]
-12:47:09 - Sending message [48|1200|14||REQUEST_SUZUKI_TOKEN|1300|4]
-12:47:09 - Got message [0|1600|28||SEND_SUZUKI_TOKEN|1200|48]
-12:47:09 - Please wait while someone grabs the file...
-12:47:09 - Sending message [48|1200|17|-7:file3.txt|ASK_GET|1600|0]
-12:47:09 - Got message [0|1600|29|-7:file3.txt|TELL_GET|1200|48]
-12:47:09 - Don't have permission to read file: file3.txt
-12:47:09 - Pausing for 5000 ms
-12:47:09 - Sending message [48|1200|22|-7:file3.txt|DELETE|1600|0]
-12:47:09 - Sending message [48|1200|19||REQUEST_SUZUKI_TOKEN|1300|4]
-12:47:09 - Sending message [48|1200|21||REQUEST_SUZUKI_TOKEN|1100|28]
-12:47:09 - Sending message [48|1200|20||REQUEST_SUZUKI_TOKEN|1400|24]
-12:47:09 - Sending message [48|1200|18||REQUEST_SUZUKI_TOKEN|1600|0]
-12:47:09 - Got message [0|1600|30||DELETE_UNLOCK|1200|48]
-12:47:09 - DELETE_UNLOCK: file3.txt not deleted, we are not the owner.
-12:47:14 - Stopping...
+13:46:50 - Starting servent [48|localhost|1200]
+13:46:50 - Pausing for 5000 ms
+13:46:51 - Requiring Suzuki-Kasami token
+13:46:51 - Sending message [48|1200|0||REQUEST_SUZUKI_TOKEN|1400|24]
+13:46:51 - Sending message [48|1200|1||REQUEST_SUZUKI_TOKEN|1300|4]
+13:46:51 - Got message [4|1300|3||SEND_SUZUKI_TOKEN|1200|48]
+13:46:51 - Got token
+13:46:51 - Sending message [48|1200|2||NEW_NODE|1400|24]
+13:46:51 - Got message [4|1300|4||WELCOME|1200|48]
+13:46:51 - Sending first update message: _-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
+13:46:51 - Sending message [48|1200|3|_-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1300|4]
+13:46:51 - Got message [28|1100|2||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:51 - Got message [48|1200|4|1300,1400-|0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
+13:46:51 - Sending message [48|1200|4||SEND_SUZUKI_TOKEN|1100|28]
+13:46:52 - Got message [28|1100|3||NEW_NODE|1200|48]
+13:46:52 - Sending message [48|1200|5||WELCOME|1100|28]
+13:46:52 - Got message [28|1100|4|_-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
+13:46:52 - Sending message [28|1100|6|1200-|0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1300|4]
+13:46:52 - Got message [0|1600|2||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:53 - Got message [0|1600|6|1300,1400,1100-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1200|48]
+13:46:53 - Sending message [0|1600|7|1300,1400,1100,1200-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1600|0]
+13:46:55 - Pausing for 5000 ms
+13:46:55 - Got message [4|1300|11||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:55 - Got message [0|1600|9||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:55 - Got message [28|1100|7||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:55 - Got message [0|1600|10|file4.txt|BACKUP|1200|48]
+13:46:55 - Backup of file {file4.txt} completed.
+13:46:55 - Got message [28|1100|11|-7:file3.txt|PUT|1200|48]
+13:46:55 - Sending message [48|1200|8|-7:file3.txt|PUT|1600|0]
+13:46:55 - Got message [0|1600|13|file3.txt|BACKUP|1200|48]
+13:46:55 - Backup of file {file3.txt} completed.
+13:46:55 - Got message [4|1300|13|-7:file3.txt|ASK_GET|1200|48]
+13:46:55 - Sending message [4|1300|9|-7:file3.txt|ASK_GET|1600|0]
+13:46:57 - Got message [24|1400|9||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:57 - Got message [24|1400|14|-6:file4.txt|ASK_GET|1200|48]
+13:46:57 - Sending message [24|1400|10|-6:file4.txt|ASK_GET|1600|0]
+13:46:59 - Got message [0|1600|21||REQUEST_SUZUKI_TOKEN|1200|48]
+13:46:59 - Got message [0|1600|26|-6:file4.txt|DELETE_BACKUP|1200|48]
+13:46:59 - DELETED BACKUP: file4.txt owned by: 1600
+13:46:59 - Got message [0|1600|25||REQUEST_SUZUKI_TOKEN|1200|48]
+13:47:00 - Sending message [48|1200|11||REQUEST_SUZUKI_TOKEN|1600|0]
+13:47:00 - Sending message [48|1200|12||REQUEST_SUZUKI_TOKEN|1300|4]
+13:47:00 - Sending message [48|1200|13||REQUEST_SUZUKI_TOKEN|1400|24]
+13:47:00 - Sending message [48|1200|14||REQUEST_SUZUKI_TOKEN|1100|28]
+13:47:00 - Got message [0|1600|28||SEND_SUZUKI_TOKEN|1200|48]
+13:47:00 - Please wait while someone grabs the file...
+13:47:00 - Sending message [48|1200|15|-7:file3.txt|ASK_GET|1600|0]
+13:47:00 - Got message [0|1600|29|-7:file3.txt|TELL_GET|1200|48]
+13:47:00 - Don't have permission to read file: file3.txt
+13:47:00 - Pausing for 5000 ms
+13:47:00 - Sending message [48|1200|16||REQUEST_SUZUKI_TOKEN|1600|0]
+13:47:00 - Sending message [48|1200|19||REQUEST_SUZUKI_TOKEN|1100|28]
+13:47:00 - Sending message [48|1200|17||REQUEST_SUZUKI_TOKEN|1300|4]
+13:47:00 - Sending message [48|1200|18||REQUEST_SUZUKI_TOKEN|1400|24]
+13:47:00 - Sending message [48|1200|20|-7:file3.txt|DELETE|1600|0]
+13:47:00 - Got message [0|1600|30||DELETE_UNLOCK|1200|48]
+13:47:00 - DELETE_UNLOCK: file3.txt not deleted, we are not the owner.
+13:47:05 - Stopping...

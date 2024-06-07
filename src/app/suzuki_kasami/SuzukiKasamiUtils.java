@@ -73,7 +73,6 @@ public class SuzukiKasamiUtils {
         token.getLn().set(nodeId, rn.get(nodeId));
 
         // add requests to queue if they are not already in it
-
         for(int i = 0; i < rn.size(); i++){
             Integer iport = getPortForNode(i);
             if(rn.get(i) == token.getLn().get(i) + 1 && !token.getQueue().contains(iport) && iport != -1){

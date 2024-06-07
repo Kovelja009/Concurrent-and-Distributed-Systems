@@ -1,9 +1,12 @@
 package servent.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.AppConfig;
+import app.MetaFile;
 import app.ServentInfo;
 import servent.message.Message;
 import servent.message.MessageType;
@@ -39,9 +42,10 @@ public class UpdateHandler implements MessageHandler {
 
 					String messageText = clientMessage.getMessageText();
 					String newMessageText = updateMessage(messageText);
+					Map<Integer, Map<String, MetaFile>> updatedFiles = updateFiles(((UpdateMessage) clientMessage).getFiles());
 
 					Message nextUpdate = new UpdateMessage(clientMessage.getSenderPort(), AppConfig.chordState.getNextNodePort(),
-							newMessageText);
+							newMessageText, updatedFiles);
 					MessageUtil.sendMessage(nextUpdate);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +56,6 @@ public class UpdateHandler implements MessageHandler {
 					List<Integer> portsFromMessage = getPortsFromMessage(clientMessage.getMessageText());
 					List<Integer> rnsFromMessage = getRnsFromMessage(clientMessage.getMessageText());
 
-//					AppConfig.timestampedStandardPrint("Got update image trough whole circle: " + portsFromMessage + " - " + rnsFromMessage);
 
 					//////////////////////////////////////////////
 					// add info about all nodes in the system
@@ -66,6 +69,9 @@ public class UpdateHandler implements MessageHandler {
 					// update my RN in Suzuki-Kasami
 					updateRNs(rnsFromMessage);
 
+					// only save files that I am responsible for
+					saveMyFiles(((UpdateMessage) clientMessage).getFiles());
+
 					// release Suzuki-Kasami token
 					AppConfig.chordState.getSuzukiKasamiUtils().distributedUnlock();
 				} catch (Exception e) {
@@ -75,6 +81,30 @@ public class UpdateHandler implements MessageHandler {
 		} else {
 			AppConfig.timestampedErrorPrint("Update message handler got message that is not UPDATE");
 		}
+	}
+
+	private void saveMyFiles(Map<Integer, Map<String, MetaFile>> files) {
+		// only save files that I am responsible for
+		for (Map.Entry<Integer, Map<String, MetaFile>> entry : files.entrySet()) {
+			if(AppConfig.chordState.isKeyMine(entry.getKey()))
+				AppConfig.chordState.getValueMap().put(entry.getKey(), entry.getValue());
+
+		}
+	}
+
+	private Map<Integer, Map<String, MetaFile>> updateFiles(Map<Integer, Map<String, MetaFile>> files) {
+		Map<Integer, Map<String, MetaFile>> tmpFiles = AppConfig.chordState.getValueMap();
+
+		// in tmpFiles put all items from files that are not in ChordState
+		for (Map.Entry<Integer, Map<String, MetaFile>> entry : files.entrySet()){
+			if (tmpFiles.containsKey(entry.getKey())) {
+				tmpFiles.get(entry.getKey()).putAll(entry.getValue());
+			} else {
+				tmpFiles.put(entry.getKey(), entry.getValue());
+			}
+		}
+
+		return tmpFiles;
 	}
 
 //	Message format: "port1, port2, port3 - |n1, n2, n3, n4|"

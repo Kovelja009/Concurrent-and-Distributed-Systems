@@ -27,8 +27,8 @@ public class WelcomeHandler implements MessageHandler {
 
 				String message = initializeUpdateStringMessage();
 				AppConfig.timestampedStandardPrint("Sending first update message: " + message);
-
-				UpdateMessage um = new UpdateMessage(AppConfig.myServentInfo.getListenerPort(), AppConfig.chordState.getNextNodePort(), message);
+																																				// should be empty
+				UpdateMessage um = new UpdateMessage(AppConfig.myServentInfo.getListenerPort(), AppConfig.chordState.getNextNodePort(), message, AppConfig.chordState.getValueMap());
 				MessageUtil.sendMessage(um);
 
 			} else {
