@@ -15,7 +15,7 @@ public class PutHandler implements MessageHandler {
 	
 	@Override
 
-	// TODO: adopt so that we can send String path to the file
+
 	public void run() {
 		try {
 			if (clientMessage.getMessageType() == MessageType.PUT) {

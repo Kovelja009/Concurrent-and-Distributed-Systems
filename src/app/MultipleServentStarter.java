@@ -107,13 +107,6 @@ public class MultipleServentStarter {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-//			 TODO: remove this when we introduce distributed lock (it will also enable us to stop program immediately)
-//			try { //give each node 10s to start up
-//				Thread.sleep(10000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
 		}
 		
 		Thread t = new Thread(new ServentCLI(serventProcesses, bsProcess));

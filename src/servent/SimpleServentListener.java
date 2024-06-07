@@ -96,6 +96,12 @@ public class SimpleServentListener implements Runnable, Cancellable {
 				case DELETE_UNLOCK:
 					messageHandler = new DeleteUnlockHandler(clientMessage);
 					break;
+				case BACKUP:
+					messageHandler = new BackupHandler(clientMessage);
+					break;
+				case DELETE_BACKUP:
+					messageHandler = new DeleteBackupHandler(clientMessage);
+					break;
 				}
 				
 				threadPool.submit(messageHandler);

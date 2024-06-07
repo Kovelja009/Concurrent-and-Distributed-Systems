@@ -59,9 +59,12 @@ public class ChordState {
 	// must be concurrent safe
 	private List<Integer> friends;
 
-	// TODO: pay attention that inner hashmap can be NULL !!
+	// pay attention that inner hashmap can be NULL!
 	private Map<Integer, Map<String, MetaFile>> valueMap;
-	
+
+	// because messages are not FIFO (used for backup)
+	private List<String> filesToBeDeleted;
+
 	public ChordState() {
 		this.chordLevel = 1;
 		int tmp = CHORD_SIZE;
@@ -84,6 +87,7 @@ public class ChordState {
 
 		suzukiKasamiUtils = new SuzukiKasamiUtils(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
 		friends = new CopyOnWriteArrayList<>();
+		filesToBeDeleted = new CopyOnWriteArrayList<>();
 	}
 	
 	/**
@@ -329,25 +333,11 @@ public class ChordState {
 	public void deleteValue(int key, String value, int port){
 		if(isKeyMine(key)){
 			//////////////////////////////////
-			Map<String, MetaFile> map = valueMap.get(key);
-			MetaFile deleted = null;
-			int res;
+			int deleted = deleteIfPossible(key, value, port);
 
-			if(map == null) {
-				AppConfig.timestampedStandardPrint("DELETE: map is null");
-				res = -2;
-			} else {
-				// we can delete only if we are the owner of the file
-				boolean canDelete = map.get(value).getOwnerPort() == port;
-				if (canDelete){
-					deleted = map.remove(value);
-					AppConfig.timestampedStandardPrint("DELETE: " + deleted.getPath() + " owned by: " + deleted.getOwnerPort());
-					res = 0;
-				} else {
-					// we are not the owner of the file
-					AppConfig.timestampedStandardPrint("DELETE: " + value + " is not owned by " + port + " hence cannot be deleted");
-					res = -1;
-				}
+			// if we succesfully deleted file, also neighbour should delete the backup
+			if (deleted == 0) {
+				deletingNeighbourBackup(key, value);
 			}
 			//////////////////////////////////
 
@@ -355,7 +345,7 @@ public class ChordState {
 			if(port == AppConfig.myServentInfo.getListenerPort()) {
 				suzukiKasamiUtils.distributedUnlock();
 			} else { // else we will send delete_unlock message to the node who requested delete
-				DeleteUnlockMessage dum = new DeleteUnlockMessage(AppConfig.myServentInfo.getListenerPort(), port, value, res);
+				DeleteUnlockMessage dum = new DeleteUnlockMessage(AppConfig.myServentInfo.getListenerPort(), port, value, deleted);
 				MessageUtil.sendMessage(dum);
 			}
 		} else {
@@ -368,22 +358,15 @@ public class ChordState {
 
 	/**
 	 * The Chord put operation. Stores locally if key is ours, otherwise sends it on.
-	 */
-	// TODO: Add backup for data by sending them to your neighbours (predecessor and successor?)
+	 * When storing locally, we also send the value to our neighbours.
+	 * */
 	public void putValue(int key, String value, int port, boolean isPublic) {
 		if (isKeyMine(key)) {
-			//////////////////////////////////////////////////////
-			// get map for the key or create new map if it doesn't exist
-			Map<String, MetaFile> map = valueMap.get(key);
-			if (map == null) {
-				map = new HashMap<>();
-				valueMap.put(key, map);
-			}
+			// putting value into hashmap
+			MetaFile metaFile = putIntoHashMap(key, value, port, isPublic);
 
-			// create new MetaFile object and put it in the map
-			MetaFile metaFile = new MetaFile(value, port, isPublic);
-			map.put(value, metaFile);
-			//////////////////////////////////////////////////////
+			// send value to neighbours (predecessor and successor)
+			sendingToNeighbours(metaFile);
 
 			// if we are the one putting the value, then we will unlock
 			if(port == AppConfig.myServentInfo.getListenerPort()) {
@@ -399,7 +382,103 @@ public class ChordState {
 			MessageUtil.sendMessage(pm);
 		}
 	}
-	
+
+	public int deleteIfPossible(int key, String value, int port) {
+		Map<String, MetaFile> map = valueMap.get(key);
+		MetaFile deleted = null;
+		int res;
+
+		if(map == null) {
+			AppConfig.timestampedStandardPrint("DELETE: map is null");
+			res = -2;
+		} else {
+			// we can delete only if we are the owner of the file
+			boolean canDelete = map.get(value).getOwnerPort() == port;
+			if (canDelete){
+				deleted = map.remove(value);
+				if (deleted != null) {
+					AppConfig.timestampedStandardPrint("DELETE: " + deleted.getPath() + " owned by: " + deleted.getOwnerPort());
+					res = 0;
+				} else {
+					AppConfig.timestampedStandardPrint("DELETE: " + value + " not found");
+					res = -3;
+				}
+			} else {
+				// we are not the owner of the file
+				AppConfig.timestampedStandardPrint("DELETE: " + value + " is not owned by " + port + " hence cannot be deleted");
+				res = -1;
+			}
+		}
+
+		return res;
+	}
+
+	private void deletingNeighbourBackup(int key, String value) {
+		// send to predecessor
+		if(predecessorInfo != null) {
+			DeleteBackupMessage dbm = new DeleteBackupMessage(AppConfig.myServentInfo.getListenerPort(), predecessorInfo.getListenerPort(), key, value);
+			MessageUtil.sendMessage(dbm);
+		}
+
+		// send to successor
+		if (successorTable[0] != null) {
+			DeleteBackupMessage dbm = new DeleteBackupMessage(AppConfig.myServentInfo.getListenerPort(), successorTable[0].getListenerPort(), key, value);
+			MessageUtil.sendMessage(dbm);
+		}
+	}
+
+	public void deleteBackup(String path) {
+		if(!filesToBeDeleted.contains(path))
+			filesToBeDeleted.add(path);
+		deletion();
+	}
+
+	public void deletion() {
+		// go through all files that need to be deleted, and if they are successfully deleted, remove them from the list
+		List<String> tmp = new CopyOnWriteArrayList<>();
+		for (String path : filesToBeDeleted) {
+			int key = hashFileName(path);
+			Map<String, MetaFile> map = valueMap.get(key);
+			boolean shouldRemove = true;
+			if (map != null) {
+				MetaFile deleted = map.remove(path);
+				if (deleted != null) {
+					AppConfig.timestampedStandardPrint("DELETED BACKUP: " + deleted.getPath() + " owned by: " + deleted.getOwnerPort());
+					shouldRemove = false;
+				}
+			}
+
+			if (!shouldRemove)
+				tmp.add(path);
+		}
+		filesToBeDeleted = tmp;
+	}
+
+	public MetaFile putIntoHashMap(int key, String path, int port, boolean isPublic) {
+		// get map for the key or create new map if it doesn't exist
+        Map<String, MetaFile> map = valueMap.computeIfAbsent(key, k -> new HashMap<>());
+
+        // create new MetaFile object and put it in the map
+		MetaFile metaFile = new MetaFile(path, port, isPublic);
+		map.putIfAbsent(path, metaFile);
+		return metaFile;
+	}
+
+	private void sendingToNeighbours(MetaFile metaFile) {
+		// send to predecessor
+		if(predecessorInfo != null) {
+			BackupMessage bm = new BackupMessage(AppConfig.myServentInfo.getListenerPort(), predecessorInfo.getListenerPort(), metaFile);
+			MessageUtil.sendMessage(bm);
+		}
+
+		// send to successor
+		if (successorTable[0] != null) {
+			BackupMessage bm = new BackupMessage(AppConfig.myServentInfo.getListenerPort(), successorTable[0].getListenerPort(), metaFile);
+			MessageUtil.sendMessage(bm);
+		}
+	}
+
+
 	/**
 	 * The chord get operation. Gets the value locally if key is ours, otherwise asks someone else to give us the value.
 	 * @return <ul>
@@ -409,7 +488,6 @@ public class ChordState {
 	 *		   </ul>
 	 */
 
-	// TODO: add logic for checking whether the file can be seen by us or not
 	public MetaFile getValue(int key, String path) {
 		// distributed lock
 		suzukiKasamiUtils.distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());

@@ -1,37 +1,43 @@
-16:19:23 - Starting servent [24|localhost|1400]
-16:19:23 - Pausing for 5000 ms
-16:19:25 - Requiring Suzuki-Kasami token
-16:19:25 - Sending message [24|1400|3||REQUEST_SUZUKI_TOKEN|1200|48]
-16:19:25 - Sending message [24|1400|1||REQUEST_SUZUKI_TOKEN|1300|4]
-16:19:25 - Sending message [24|1400|2||REQUEST_SUZUKI_TOKEN|1600|0]
-16:19:25 - Sending message [24|1400|0||REQUEST_SUZUKI_TOKEN|1100|28]
-16:19:25 - Got message [48|1200|5||SEND_SUZUKI_TOKEN|1400|24]
-16:19:25 - Got token
-16:19:25 - Sending message [24|1400|4||NEW_NODE|1300|4]
-16:19:26 - Got message [28|1100|6||WELCOME|1400|24]
-16:19:26 - Sending first update message: _-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
-16:19:26 - Sending message [24|1400|5|_-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1100|28]
-16:19:26 - Got message [24|1400|8|1100,1200,1600,1300-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1400|24]
-16:19:28 - Pausing for 2000 ms
-16:19:28 - Got message [28|1100|11||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:28 - Got message [0|1600|9||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:28 - Got message [4|1300|9||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:28 - Sending message [24|1400|6||SEND_SUZUKI_TOKEN|1100|28]
-16:19:29 - Got message [4|1300|13|-10:file0.txt|ASK_GET|1400|24]
-16:19:29 - Sending message [4|1300|7|-10:file0.txt|ASK_GET|1100|28]
-16:19:30 - Sending message [24|1400|10||REQUEST_SUZUKI_TOKEN|1600|0]
-16:19:30 - Sending message [24|1400|9||REQUEST_SUZUKI_TOKEN|1200|48]
-16:19:30 - Sending message [24|1400|8||REQUEST_SUZUKI_TOKEN|1100|28]
-16:19:30 - Sending message [24|1400|11||REQUEST_SUZUKI_TOKEN|1300|4]
-16:19:30 - Got message [4|1300|14||SEND_SUZUKI_TOKEN|1400|24]
-16:19:30 - Please wait while someone grabs the file...
-16:19:30 - Pausing for 7000 ms
-16:19:30 - Sending message [24|1400|12|-6:file4.txt|ASK_GET|1100|28]
-16:19:31 - Got message [0|1600|15|-6:file4.txt|TELL_GET|1400|24]
-16:19:31 - File {file4.txt} CONTENT -> "See you later, Eren." - Mikasa Ackerman
-16:19:33 - Got message [0|1600|17||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:33 - Sending message [24|1400|13||SEND_SUZUKI_TOKEN|1600|0]
-16:19:33 - Got message [0|1600|21||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:33 - Got message [48|1200|12||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:34 - Got message [48|1200|17||REQUEST_SUZUKI_TOKEN|1400|24]
-16:19:37 - Stopping...
+12:46:59 - Starting servent [24|localhost|1400]
+12:46:59 - Pausing for 5000 ms
+12:47:00 - Requiring Suzuki-Kasami token
+12:47:00 - Sending message [24|1400|1||REQUEST_SUZUKI_TOKEN|1200|48]
+12:47:00 - Sending message [24|1400|0||REQUEST_SUZUKI_TOKEN|1100|28]
+12:47:00 - Got message [48|1200|3||SEND_SUZUKI_TOKEN|1400|24]
+12:47:00 - Got token
+12:47:00 - Sending message [24|1400|2||NEW_NODE|1200|48]
+12:47:00 - Got message [28|1100|3||WELCOME|1400|24]
+12:47:00 - Sending first update message: _-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
+12:47:00 - Sending message [24|1400|3|_-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1100|28]
+12:47:01 - Got message [24|1400|5|1100,1200-|0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1400|24]
+12:47:01 - Got message [4|1300|2||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:01 - Sending message [24|1400|4||SEND_SUZUKI_TOKEN|1300|4]
+12:47:01 - Got message [4|1300|6||NEW_NODE|1400|24]
+12:47:01 - Sending message [24|1400|5||WELCOME|1300|4]
+12:47:01 - Got message [4|1300|4|_-|0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1400|24]
+12:47:01 - Sending message [4|1300|6|1400-|0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1100|28]
+12:47:01 - Got message [0|1600|2||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:02 - Got message [0|1600|7|1300-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1400|24]
+12:47:02 - Sending message [0|1600|7|1300,1400-|1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0||UPDATE|1100|28]
+12:47:04 - Pausing for 2000 ms
+12:47:04 - Got message [4|1300|8||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:04 - Got message [28|1100|12||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:04 - Got message [0|1600|7||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:04 - Got message [4|1300|12|-7:file3.txt|ASK_GET|1400|24]
+12:47:04 - Sending message [4|1300|8|-7:file3.txt|ASK_GET|1100|28]
+12:47:06 - Sending message [24|1400|10||REQUEST_SUZUKI_TOKEN|1200|48]
+12:47:06 - Sending message [24|1400|9||REQUEST_SUZUKI_TOKEN|1100|28]
+12:47:06 - Sending message [24|1400|12||REQUEST_SUZUKI_TOKEN|1300|4]
+12:47:06 - Sending message [24|1400|11||REQUEST_SUZUKI_TOKEN|1600|0]
+12:47:06 - Got message [4|1300|13||SEND_SUZUKI_TOKEN|1400|24]
+12:47:06 - Please wait while someone grabs the file...
+12:47:06 - Pausing for 7000 ms
+12:47:06 - Sending message [24|1400|13|-6:file4.txt|ASK_GET|1100|28]
+12:47:06 - Got message [0|1600|17|-6:file4.txt|TELL_GET|1400|24]
+12:47:06 - File {file4.txt} CONTENT -> "See you later, Eren." - Mikasa Ackerman
+12:47:08 - Got message [0|1600|19||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:08 - Sending message [24|1400|14||SEND_SUZUKI_TOKEN|1600|0]
+12:47:08 - Got message [0|1600|23||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:09 - Got message [48|1200|15||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:09 - Got message [48|1200|20||REQUEST_SUZUKI_TOKEN|1400|24]
+12:47:13 - Stopping...
