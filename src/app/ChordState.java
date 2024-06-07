@@ -328,6 +328,7 @@ public class ChordState {
 
 	/**
 	 * The Chord delete operation. Deletes locally if key is ours, otherwise sends it on.
+	 * When deleting locally, we also send the delete message to our neighbours.
 	 */
 	// TODO: delete backup at neighbour also
 	public void deleteValue(int key, String value, int port){
@@ -445,6 +446,7 @@ public class ChordState {
 				MetaFile deleted = map.remove(path);
 				if (deleted != null) {
 					AppConfig.timestampedStandardPrint("DELETED BACKUP: " + deleted.getPath() + " owned by: " + deleted.getOwnerPort());
+					deletingNeighbourBackup(key, path);
 					shouldRemove = false;
 				}
 			}
