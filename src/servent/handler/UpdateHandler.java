@@ -40,7 +40,7 @@ public class UpdateHandler implements MessageHandler {
 					// have all the info about all nodes in the system)
 					// rn_sending = max(rn, rn_received)
 
-					String messageText = clientMessage.getMessageText();
+					String messageText = ((UpdateMessage)clientMessage).getMessageParsing();
 					String newMessageText = updateMessage(messageText);
 					Map<Integer, Map<String, MetaFile>> updatedFiles = updateFiles(((UpdateMessage) clientMessage).getFiles());
 
@@ -53,8 +53,8 @@ public class UpdateHandler implements MessageHandler {
 				////////////////////////////////////////////////////////////////////
 			} else { // if all nodes are already informed about me, so the message is coming back to me
 				try {
-					List<Integer> portsFromMessage = getPortsFromMessage(clientMessage.getMessageText());
-					List<Integer> rnsFromMessage = getRnsFromMessage(clientMessage.getMessageText());
+					List<Integer> portsFromMessage = getPortsFromMessage(((UpdateMessage) clientMessage).getMessageParsing());
+					List<Integer> rnsFromMessage = getRnsFromMessage(((UpdateMessage) clientMessage).getMessageParsing());
 
 
 					//////////////////////////////////////////////

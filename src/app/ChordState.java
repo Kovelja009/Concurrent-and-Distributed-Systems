@@ -326,6 +326,53 @@ public class ChordState {
 		updateSuccessorTable();
 	}
 
+	public void removeNode(ServentInfo shutDownNode) {
+		for(int i = 0; i < allNodeInfo.size(); i++) {
+			if (allNodeInfo.get(i).getListenerPort() == shutDownNode.getListenerPort()) {
+				allNodeInfo.remove(i);
+				break;
+			}
+		}
+
+		allNodeInfo.sort(new Comparator<ServentInfo>() {
+
+			@Override
+			public int compare(ServentInfo o1, ServentInfo o2) {
+				return o1.getChordId() - o2.getChordId();
+			}
+
+		});
+
+		List<ServentInfo> newList = new ArrayList<>();
+		List<ServentInfo> newList2 = new ArrayList<>();
+
+		int myId = AppConfig.myServentInfo.getChordId();
+		for (ServentInfo serventInfo : allNodeInfo) {
+			if (serventInfo.getChordId() < myId) {
+				newList2.add(serventInfo);
+			} else {
+				newList.add(serventInfo);
+			}
+		}
+
+		allNodeInfo.clear();
+		allNodeInfo.addAll(newList);
+		allNodeInfo.addAll(newList2);
+		if (newList2.size() > 0) {
+			predecessorInfo = newList2.get(newList2.size()-1);
+		} else if(newList.size() > 0) {
+			predecessorInfo = newList.get(newList.size()-1);
+		} else { // we are only node in the system
+			predecessorInfo = null;
+			for (int i = 0; i < chordLevel; i++) {
+				successorTable[i] = null;
+			}
+			return;
+		}
+
+		updateSuccessorTable();
+	}
+
 	/**
 	 * The Chord delete operation. Deletes locally if key is ours, otherwise sends it on.
 	 * When deleting locally, we also send the delete message to our neighbours.
@@ -528,6 +575,10 @@ public class ChordState {
 
 	private boolean amSubscribed(int port){
 		return friends.contains(port);
+	}
+
+	public boolean canShutdown() {
+		return successorTable[0] == null && predecessorInfo == null;
 	}
 
 	public List<ServentInfo> getAllNodeInfo() {

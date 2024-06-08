@@ -44,42 +44,56 @@ public class CLIParser implements Runnable, Cancellable {
 		commandList.add(new DHTDeleteCommand());
 		commandList.add(new DHTFriendCommand());
 		commandList.add(new StopCommand(this, listener));
+		commandList.add(new ShutDownCommand(this, listener));
 	}
 	
 	@Override
 	public void run() {
 		Scanner sc = new Scanner(System.in);
-		
-		while (working) {
-			String commandLine = sc.nextLine();
-			
-			int spacePos = commandLine.indexOf(" ");
-			
-			String commandName = null;
-			String commandArgs = null;
-			if (spacePos != -1) {
-				commandName = commandLine.substring(0, spacePos);
-				commandArgs = commandLine.substring(spacePos+1, commandLine.length());
-			} else {
-				commandName = commandLine;
-			}
-			
-			boolean found = false;
-			
-			for (CLICommand cliCommand : commandList) {
-				if (cliCommand.commandName().equals(commandName)) {
-					cliCommand.execute(commandArgs);
-					found = true;
-					break;
+
+		try {
+			while (working) {
+				if(!sc.hasNext()){
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					continue;
+				}
+				String commandLine = sc.nextLine();
+
+				int spacePos = commandLine.indexOf(" ");
+
+				String commandName = null;
+				String commandArgs = null;
+				if (spacePos != -1) {
+					commandName = commandLine.substring(0, spacePos);
+					commandArgs = commandLine.substring(spacePos+1, commandLine.length());
+				} else {
+					commandName = commandLine;
+				}
+
+				boolean found = false;
+
+				for (CLICommand cliCommand : commandList) {
+					if (cliCommand.commandName().equals(commandName)) {
+						cliCommand.execute(commandArgs);
+						found = true;
+						break;
+					}
+				}
+
+				if (!found) {
+					AppConfig.timestampedErrorPrint("Unknown command: " + commandName);
 				}
 			}
-			
-			if (!found) {
-				AppConfig.timestampedErrorPrint("Unknown command: " + commandName);
-			}
+
+			sc.close();
+		}catch (Exception e) {
+			AppConfig.timestampedErrorPrint("CLI parser exception");
+			e.printStackTrace();
 		}
-		
-		sc.close();
 	}
 	
 	@Override
