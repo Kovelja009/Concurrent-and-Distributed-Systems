@@ -110,6 +110,7 @@ public class MultipleServentStarter {
 		}
 		
 		Thread t = new Thread(new ServentCLI(serventProcesses, bsProcess));
+		t.setName("CLI");
 		
 		t.start(); //CLI thread waiting for user to type "stop".
 		

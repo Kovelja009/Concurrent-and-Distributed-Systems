@@ -21,9 +21,11 @@ public class StopCommand implements CLICommand {
 
 	@Override
 	public void execute(String args) {
-		AppConfig.timestampedStandardPrint("Stopping...");
 		parser.stop();
 		listener.stop();
+		AppConfig.getKeepAlive().stop();
+
+		AppConfig.timestampedStandardPrint("Stopping..." + " has token: " + AppConfig.chordState.getSuzukiKasamiUtils().getHasSuzukiToken().get());
 	}
 
 }

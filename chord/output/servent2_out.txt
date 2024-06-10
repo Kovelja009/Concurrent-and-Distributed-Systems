@@ -1,57 +1,111 @@
-15:09:19 - Starting servent [4|localhost|1300]
-15:09:19 - Pausing for 5000 ms
-15:09:20 - Requiring Suzuki-Kasami token
-15:09:20 - Sending message [4|1300|1||REQUEST_SUZUKI_TOKEN|1400|24]
-15:09:20 - Sending message [4|1300|0||REQUEST_SUZUKI_TOKEN|1200|48]
-15:09:20 - Got message [24|1400|3||SEND_SUZUKI_TOKEN|1300|4]
-15:09:20 - Got token
-15:09:20 - Sending message [4|1300|2||NEW_NODE|1400|24]
-15:09:20 - Got message [24|1400|4||WELCOME|1300|4]
-15:09:20 - Sending first update message: _-|0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
-15:09:20 - Sending message [4|1300|3||UPDATE|1400|24]
-15:09:20 - Got message [28|1100|2||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:20 - Got message [4|1300|3||UPDATE|1300|4]
-15:09:20 - Sending message [4|1300|4||SEND_SUZUKI_TOKEN|1100|28]
-15:09:21 - Got message [28|1100|5||UPDATE|1300|4]
-15:09:21 - Sending message [28|1100|5||UPDATE|1400|24]
-15:09:21 - Got message [0|1600|2||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:22 - Got message [0|1600|6||NEW_NODE|1300|4]
-15:09:22 - Sending message [4|1300|6||WELCOME|1600|0]
-15:09:22 - Got message [0|1600|5||UPDATE|1300|4]
-15:09:22 - Sending message [0|1600|7||UPDATE|1400|24]
-15:09:24 - Subscribed to port: 1100, my current friends: [1100]
-15:09:24 - Sending message [4|1300|11||REQUEST_SUZUKI_TOKEN|1600|0]
-15:09:24 - Sending message [4|1300|10||REQUEST_SUZUKI_TOKEN|1200|48]
-15:09:24 - Got message [0|1600|6||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:24 - Got message [28|1100|10||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:24 - Got message [0|1600|11|file4.txt|BACKUP|1300|4]
-15:09:24 - Sending message [4|1300|8||REQUEST_SUZUKI_TOKEN|1400|24]
-15:09:24 - Sending message [4|1300|9||REQUEST_SUZUKI_TOKEN|1100|28]
-15:09:24 - Backup of file {file4.txt} completed.
-15:09:24 - Got message [0|1600|12||SEND_SUZUKI_TOKEN|1300|4]
-15:09:24 - Please wait while someone grabs the file...
-15:09:24 - Pausing for 10000 ms
-15:09:24 - Sending message [4|1300|12|-7:file3.txt|ASK_GET|1400|24]
-15:09:25 - Got message [0|1600|13|-7:not_found|TELL_GET|1300|4]
-15:09:25 - File with path {not_found} not found!
-15:09:25 - Sending message [4|1300|13||SEND_SUZUKI_TOKEN|1100|28]
-15:09:25 - Got message [0|1600|15|file3.txt|BACKUP|1300|4]
-15:09:25 - Backup of file {file3.txt} completed.
-15:09:26 - Got message [24|1400|13||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:27 - Got message [0|1600|17||SHUT_DOWN|1300|4]
-15:09:27 - ----------------------
-15:09:27 - 1100
-15:09:27 - 1200
-15:09:27 - 1600
-15:09:27 - ----------------------
-15:09:27 - Sending message [4|1300|14|bye|GOODBYE|1400|24]
-15:09:28 - Got message [0|1600|18||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:28 - Sending message [4|1300|15||SEND_SUZUKI_TOKEN|1600|0]
-15:09:28 - Got message [0|1600|21||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:28 - Got message [0|1600|25|-6:file4.txt|DELETE_BACKUP|1300|4]
-15:09:28 - DELETED BACKUP: file4.txt owned by: 1600
-15:09:28 - Sending message [4|1300|17|-6:file4.txt|DELETE_BACKUP|1100|28]
-15:09:28 - Sending message [4|1300|16|-6:file4.txt|DELETE_BACKUP|1600|0]
-15:09:29 - Got message [48|1200|14||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:30 - Got message [48|1200|18||REQUEST_SUZUKI_TOKEN|1300|4]
-15:09:34 - Stopping...
+---------------------------------------
+18:33:11 - Starting servent [4|localhost|1300]
+---------------------------------------
+---------------------------------------
+18:33:11 - Pausing for 5000 ms
+---------------------------------------
+---------------------------------------
+18:33:13 - Requiring Suzuki-Kasami token
+---------------------------------------
+---------------------------------------
+18:33:13 - Requested token
+---------------------------------------
+18:33:13 - Sending message [4|1300|1||REQUEST_SUZUKI_TOKEN|1600|0]
+18:33:13 - Sending message [4|1300|0||REQUEST_SUZUKI_TOKEN|1200|48]
+18:33:13 - Sending message [4|1300|2||REQUEST_SUZUKI_TOKEN|1400|24]
+18:33:13 - Got message [24|1400|5||SEND_SUZUKI_TOKEN|1300|4]
+---------------------------------------
+18:33:13 - Got token
+---------------------------------------
+---------------------------------------
+18:33:13 - Got token
+---------------------------------------
+18:33:13 - Sending message [4|1300|3||NEW_NODE|1200|48]
+18:33:13 - Got message [24|1400|8||WELCOME|1300|4]
+---------------------------------------
+18:33:13 - Sending first update message: _-|0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|
+---------------------------------------
+18:33:13 - Sending message [4|1300|4||UPDATE|1400|24]
+18:33:14 - Got message [4|1300|10||UPDATE|1300|4]
+---------------------------------------
+18:33:14 - Released token
+---------------------------------------
+18:33:14 - Sending message [4|1300|5|ping|PING|1600|0]
+18:33:14 - Got message [24|1400|10|ping|PING|1300|4]
+18:33:14 - Got message [0|1600|12|pong|PONG|1300|4]
+18:33:14 - Sending message [4|1300|6|pong|PONG|1400|24]
+18:33:14 - Got message [28|1100|3||REQUEST_SUZUKI_TOKEN|1300|4]
+18:33:14 - Sending message [4|1300|7||SEND_SUZUKI_TOKEN|1100|28]
+18:33:14 - Got message [28|1100|4||NEW_NODE|1300|4]
+18:33:14 - Sending message [28|1100|8||NEW_NODE|1400|24]
+18:33:14 - Sending message [4|1300|9|ping|PING|1600|0]
+18:33:14 - Got message [24|1400|13|ping|PING|1300|4]
+18:33:14 - Sending message [4|1300|10|pong|PONG|1400|24]
+18:33:14 - Got message [0|1600|14|pong|PONG|1300|4]
+18:33:14 - Got message [28|1100|15||UPDATE|1300|4]
+18:33:15 - Sending message [28|1100|11||UPDATE|1400|24]
+18:33:15 - Got message [24|1400|15|ping|PING|1300|4]
+18:33:15 - Sending message [4|1300|12|ping|PING|1600|0]
+18:33:15 - Sending message [4|1300|13|pong|PONG|1400|24]
+18:33:15 - Got message [0|1600|17|pong|PONG|1300|4]
+18:33:15 - Got message [24|1400|17|ping|PING|1300|4]
+18:33:15 - Sending message [4|1300|14|ping|PING|1600|0]
+18:33:15 - Sending message [4|1300|15|pong|PONG|1400|24]
+18:33:15 - Got message [0|1600|19|pong|PONG|1300|4]
+18:33:16 - Sending message [4|1300|16|ping|PING|1600|0]
+18:33:16 - Got message [24|1400|19|ping|PING|1300|4]
+18:33:16 - Sending message [4|1300|17|pong|PONG|1400|24]
+18:33:16 - Got message [0|1600|21|pong|PONG|1300|4]
+---------------------------------------
+18:33:16 - Subscribed to port: 1100, my current friends: [1100]
+---------------------------------------
+---------------------------------------
+18:33:16 - Pausing for 4000 ms
+---------------------------------------
+18:33:16 - Got message [0|1600|23||REQUEST_SUZUKI_TOKEN|1300|4]
+18:33:16 - Got message [24|1400|21|ping|PING|1300|4]
+18:33:16 - Sending message [4|1300|18|ping|PING|1600|0]
+18:33:16 - Got message [0|1600|27|pong|PONG|1300|4]
+18:33:16 - Sending message [4|1300|19|pong|PONG|1400|24]
+18:33:16 - Got message [0|1600|29|file3.txt|BACKUP|1300|4]
+---------------------------------------
+18:33:16 - Backup of file {file3.txt} completed.
+---------------------------------------
+18:33:17 - Got message [0|1600|32|file4.txt|BACKUP|1300|4]
+---------------------------------------
+18:33:17 - Backup of file {file4.txt} completed.
+---------------------------------------
+18:33:17 - Sending message [4|1300|20|ping|PING|1600|0]
+18:33:17 - Got message [24|1400|23|ping|PING|1300|4]
+18:33:17 - Sending message [4|1300|21|pong|PONG|1400|24]
+18:33:17 - Got message [0|1600|34|pong|PONG|1300|4]
+18:33:17 - Got message [24|1400|25|ping|PING|1300|4]
+18:33:17 - Sending message [4|1300|22|ping|PING|1600|0]
+18:33:17 - Got message [0|1600|36|pong|PONG|1300|4]
+18:33:17 - Sending message [4|1300|23|pong|PONG|1400|24]
+18:33:18 - Got message [24|1400|27|ping|PING|1300|4]
+18:33:18 - Sending message [4|1300|24|ping|PING|1600|0]
+18:33:18 - Sending message [4|1300|25|pong|PONG|1400|24]
+18:33:18 - Got message [0|1600|38|pong|PONG|1300|4]
+18:33:18 - Sending message [4|1300|26|ping|PING|1600|0]
+18:33:18 - Got message [24|1400|29|ping|PING|1300|4]
+18:33:18 - Got message [0|1600|40|pong|PONG|1300|4]
+18:33:18 - Sending message [4|1300|27|pong|PONG|1400|24]
+18:33:19 - Got message [24|1400|31|ping|PING|1300|4]
+18:33:19 - Sending message [4|1300|28|ping|PING|1600|0]
+18:33:19 - Sending message [4|1300|29|pong|PONG|1400|24]
+18:33:19 - Got message [0|1600|42|pong|PONG|1300|4]
+18:33:19 - Sending message [4|1300|30|ping|PING|1600|0]
+18:33:19 - Got message [24|1400|33|ping|PING|1300|4]
+18:33:19 - Got message [0|1600|44|pong|PONG|1300|4]
+18:33:19 - Sending message [4|1300|31|pong|PONG|1400|24]
+18:33:20 - Sending message [4|1300|32|ping|PING|1600|0]
+18:33:20 - Got message [24|1400|35|ping|PING|1300|4]
+18:33:20 - Got message [0|1600|46|pong|PONG|1300|4]
+18:33:20 - Sending message [4|1300|33|pong|PONG|1400|24]
+---------------------------------------
+18:33:20 - Stopping... has token: false
+---------------------------------------
+18:33:20 - Sending message [4|1300|34|ping|PING|1600|0]
+18:33:20 - Got message [24|1400|37|ping|PING|1300|4]
+18:33:20 - Sending message [4|1300|35|pong|PONG|1400|24]

@@ -38,10 +38,16 @@ public class SuzukiKasamiUtils {
         this.usesSuzukiToken = new AtomicBoolean(false);
     }
 
-    public void distributedLock(List<Integer> broadcastListPorts){
+
+//    if we have failure it is urgent, and we have to get token, no matter what
+    public void distributedLock(List<Integer> broadcastListPorts, boolean isUrgent){
+        AppConfig.timestampedStandardPrint("Requested token");
         // first we need local lock so that other threads on the same node can't increment rn
          while(!localLock.compareAndSet(false, true)){
                 try {
+                    if(isUrgent)
+                        break;
+
                     // busy wait
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -49,12 +55,15 @@ public class SuzukiKasamiUtils {
                 }
          }
 
-        // increment  my request number
-        incrementRequestNumber();
 
-        // broadcast my request for token
-        broadcastTokenRequest(broadcastListPorts);
-        usesSuzukiToken.set(true);
+         // if I don't have token, then ask for it
+        if(token == null){
+            // increment  my request number
+            incrementRequestNumber();
+
+            // broadcast my request for token
+            broadcastTokenRequest(broadcastListPorts);
+        }
 
         // wait until I get the token
         while (!hasSuzukiToken.get()){
@@ -65,6 +74,9 @@ public class SuzukiKasamiUtils {
                 e.printStackTrace();
             }
         }
+        usesSuzukiToken.set(true);
+
+        AppConfig.timestampedStandardPrint("Got token");
 
     }
 
@@ -87,6 +99,7 @@ public class SuzukiKasamiUtils {
 
         // release local lock
         localLock.set(false);
+        AppConfig.timestampedStandardPrint("Released token");
     }
 
     public void possibleSendingToken() {
@@ -122,7 +135,7 @@ public class SuzukiKasamiUtils {
             if (nodeInfo.getChordId() == nodeId)
                 return nodeInfo.getListenerPort();
         }
-        // not all nodes will be servents
+//        not all nodes will be servents
 //        AppConfig.timestampedErrorPrint("Node with id " + nodeId + " not found in allNodeInfo");
         return -1;
     }
@@ -135,17 +148,10 @@ public class SuzukiKasamiUtils {
         return hasSuzukiToken;
     }
 
-    public void setHasSuzukiToken(AtomicBoolean hasSuzukiToken) {
-        this.hasSuzukiToken = hasSuzukiToken;
-    }
-
     public AtomicBoolean getUsesSuzukiToken() {
         return usesSuzukiToken;
     }
 
-    public void setUsesSuzukiToken(AtomicBoolean usesSuzukiToken) {
-        this.usesSuzukiToken = usesSuzukiToken;
-    }
 
     public SuzukiKasamiToken getToken() {
         return token;

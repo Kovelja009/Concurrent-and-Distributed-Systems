@@ -17,7 +17,7 @@ public class BasicMessage implements Message {
 	private static final long serialVersionUID = -9075856313609777945L;
 	private final MessageType type;
 	private final int senderPort;
-	private final int receiverPort;
+	private int receiverPort;
 	private final String messageText;
 	
 	//This gives us a unique id - incremented in every natural constructor.
@@ -71,7 +71,11 @@ public class BasicMessage implements Message {
 	public int getMessageId() {
 		return messageId;
 	}
-	
+
+	public void setReceiverPort(int receiverPort) {
+		this.receiverPort = receiverPort;
+	}
+
 	/**
 	 * Comparing messages is based on their unique id and the original sender port.
 	 */

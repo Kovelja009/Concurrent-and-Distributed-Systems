@@ -29,6 +29,7 @@ public class ShutDownCommand implements CLICommand {
         if (AppConfig.chordState.canShutdown()){
             parser.stop();
             listener.stop();
+            AppConfig.getKeepAlive().stop();
             AppConfig.timestampedStandardPrint("Shutting down...");
             return;
         }
@@ -36,7 +37,7 @@ public class ShutDownCommand implements CLICommand {
         AppConfig.setParserAndListener(parser, listener);
 
         // first we need distributed lock
-        AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
+        AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList(), false);
 
         // now we get rid of token because we will propagate it through the message
         SuzukiKasamiToken token = AppConfig.chordState.getSuzukiKasamiUtils().getToken();

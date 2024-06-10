@@ -37,4 +37,8 @@ public class SuzukiKasamiToken implements java.io.Serializable {
     public void setQueue(Queue<Integer> queue) {
         this.queue = queue;
     }
+
+    public void removeNodeFromTokenQueue(int port) {
+        queue.remove(port);
+    }
 }

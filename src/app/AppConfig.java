@@ -40,7 +40,13 @@ public class AppConfig {
 		DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Date now = new Date();
 
-		System.out.println(timeFormat.format(now) + " - " + message);
+		if (!message.startsWith("Sending message") && !message.startsWith("Got message")){
+			System.out.println("---------------------------------------");
+			System.out.println(timeFormat.format(now) + " - " + message);
+			System.out.println("---------------------------------------");
+		} else{
+			System.out.println(timeFormat.format(now) + " - " + message);
+		}
 	}
 
 	/**
@@ -57,6 +63,9 @@ public class AppConfig {
 	public static boolean INITIALIZED = false;
 	public static int BOOTSTRAP_PORT;
 	public static int SERVENT_COUNT;
+
+	public static int WEAK_LIMIT;
+	public static int STRONG_LIMIT;
 
 	public static ChordState chordState;
 
@@ -133,6 +142,20 @@ public class AppConfig {
 			System.exit(0);
 		}
 
+		try {
+			WEAK_LIMIT = Integer.parseInt(properties.getProperty("weak_limit"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading weak_limit. Exiting...");
+			System.exit(0);
+		}
+
+		try {
+			STRONG_LIMIT = Integer.parseInt(properties.getProperty("strong_limit"));
+		} catch (NumberFormatException e) {
+			timestampedErrorPrint("Problem reading strong_limit. Exiting...");
+			System.exit(0);
+		}
+
 		myServentInfo = new ServentInfo("localhost", serventPort);
 		chordState = new ChordState();
 		initGoodbyeMessages();
@@ -190,6 +213,10 @@ public class AppConfig {
 
 	public static SimpleServentListener getListener() {
 		return listener;
+	}
+
+	public static KeepAlive getKeepAlive() {
+		return chordState.getKeepAlive();
 	}
 
 }

@@ -34,7 +34,7 @@ public class DHTPutCommand implements CLICommand {
 			int key = AppConfig.chordState.hashFileName(path);
 
 			// request Suzuki-Kasami distributed lock
-			AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
+			AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList(), false);
 
 			AppConfig.chordState.putValue(key, path, AppConfig.myServentInfo.getListenerPort(), isPublic);
 		} else {

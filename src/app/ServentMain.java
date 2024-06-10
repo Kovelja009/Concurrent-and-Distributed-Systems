@@ -49,15 +49,24 @@ public class ServentMain {
 		
 		SimpleServentListener simpleListener = new SimpleServentListener();
 		Thread listenerThread = new Thread(simpleListener);
+		listenerThread.setName("ListenerThread");
 		listenerThread.start();
 		
 		CLIParser cliParser = new CLIParser(simpleListener);
 		Thread cliThread = new Thread(cliParser);
+		cliThread.setName("ClI_threadddddd");
 		cliThread.start();
 		
 		ServentInitializer serventInitializer = new ServentInitializer();
 		Thread initializerThread = new Thread(serventInitializer);
+		initializerThread.setName("Initializer thread");
 		initializerThread.start();
+
+		KeepAlive keepAlive = new KeepAlive(AppConfig.chordState.getNodeKeepAlive());
+		AppConfig.chordState.setKeepAlive(keepAlive);
+		Thread keepAliveThread = new Thread(keepAlive);
+		keepAliveThread.setName("KeepAlive thread");
+		keepAliveThread.start();
 		
 	}
 }

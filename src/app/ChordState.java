@@ -65,6 +65,11 @@ public class ChordState {
 	// because messages are not FIFO (used for backup)
 	private List<String> filesToBeDeleted;
 
+	// check our predecessor with ping messages and update state with new info
+	private static NodeKeepAlive nodeKeepAlive;
+
+	private KeepAlive keepAlive;
+
 	public ChordState() {
 		this.chordLevel = 1;
 		int tmp = CHORD_SIZE;
@@ -88,6 +93,8 @@ public class ChordState {
 		suzukiKasamiUtils = new SuzukiKasamiUtils(CHORD_SIZE, AppConfig.myServentInfo.getChordId());
 		friends = new CopyOnWriteArrayList<>();
 		filesToBeDeleted = new CopyOnWriteArrayList<>();
+
+		nodeKeepAlive = new NodeKeepAlive();
 	}
 	
 	/**
@@ -115,6 +122,68 @@ public class ChordState {
 			e.printStackTrace();
 		}
 	}
+
+
+	public void broadcastMessage(Message message) {
+		for (ServentInfo serventInfo : allNodeInfo) {
+			if (serventInfo.getListenerPort() != AppConfig.myServentInfo.getListenerPort()) {
+				message.setReceiverPort(serventInfo.getListenerPort());
+				MessageUtil.sendMessage(message);
+			}
+		}
+	}
+
+//	public static void trySendingRemoveMessage(List<ServentInfo> toBeRemoved, int originalTokenHolderPort) {
+//
+//		// while not successful send message to the first successor and wait for the STRONG_LIMIT for response, after that
+//		// if not successful, add it to the toBeRemoved list and remove it from your list, reset the timestamp and contact port
+//		// if possible send message to the successor with original port
+//		while (true) {
+//			if (AppConfig.chordState.getSuccessorTable().length == 0) {
+//				return;
+//			}
+//			// take next port if possible
+//			int nextNodePort = AppConfig.chordState.getNextNodePort();
+//			ServentInfo nextNode = AppConfig.chordState.getNodeInfoByPort(nextNodePort);
+//			AppConfig.timestampedStandardPrint("Trying to send remove message to: " + nextNodePort);
+//			nodeKeepAlive.setSuccessorPort(nextNodePort);
+//			nodeKeepAlive.resetSuccessorTimestamp();
+//			nodeKeepAlive.setSuccessorAlive(false);
+//
+//			// send CONTACT message to try and contact successor
+//			ContactMessage cm = new ContactMessage(AppConfig.myServentInfo.getListenerPort(), nextNodePort);
+//			MessageUtil.sendMessage(cm);
+//
+//
+//			while (System.currentTimeMillis() - nodeKeepAlive.getSuccessorTimestamp() < AppConfig.STRONG_LIMIT) {
+//				// wait for response
+//				try {
+//					// we were waiting too long, add him to the dead list and try someone else
+//					if (System.currentTimeMillis() - nodeKeepAlive.getSuccessorTimestamp() > AppConfig.STRONG_LIMIT) {
+//						toBeRemoved.add(nextNode);
+//						AppConfig.chordState.removeNode(nextNode);
+//					} // we have next successor to send message to
+//					else if (nodeKeepAlive.isSuccessorAlive()) {
+//						// send Recovery message
+//						RecoveryMessage recoveryMessage = new RecoveryMessage(AppConfig.myServentInfo.getListenerPort(), nextNodePort, toBeRemoved, originalTokenHolderPort);
+//						MessageUtil.sendMessage(recoveryMessage);
+//
+//						// reset everything
+//						nodeKeepAlive.setSuccessorPort(-1);
+//						nodeKeepAlive.resetSuccessorTimestamp();
+//						nodeKeepAlive.setSuccessorAlive(false);
+//
+//						return;
+//					}
+//
+//					Thread.sleep(500);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//
+//	}
 	
 	public int getChordLevel() {
 		return chordLevel;
@@ -291,8 +360,11 @@ public class ChordState {
 	 * 
 	 */
 	public void addNodes(List<ServentInfo> newNodes) {
-		allNodeInfo.addAll(newNodes);
-		
+		for(ServentInfo newNode : newNodes) {
+			if (!allNodeInfo.stream().map(ServentInfo::getListenerPort).toList().contains(newNode.getListenerPort()))
+				allNodeInfo.add(newNode);
+		}
+
 		allNodeInfo.sort(new Comparator<ServentInfo>() {
 			
 			@Override
@@ -370,6 +442,8 @@ public class ChordState {
 			return;
 		}
 
+		// reset predecessor's timestamp, because we maybe have new predecessor
+		nodeKeepAlive.resetTimestamp();
 		updateSuccessorTable();
 	}
 
@@ -504,6 +578,15 @@ public class ChordState {
 		filesToBeDeleted = tmp;
 	}
 
+	public ServentInfo getNodeInfoByPort(int port) {
+		for (ServentInfo serventInfo : allNodeInfo) {
+			if (serventInfo.getListenerPort() == port) {
+				return serventInfo;
+			}
+		}
+		return null;
+	}
+
 	public MetaFile putIntoHashMap(int key, String path, int port, boolean isPublic) {
 		// get map for the key or create new map if it doesn't exist
         Map<String, MetaFile> map = valueMap.computeIfAbsent(key, k -> new HashMap<>());
@@ -540,7 +623,7 @@ public class ChordState {
 
 	public MetaFile getValue(int key, String path) {
 		// distributed lock
-		suzukiKasamiUtils.distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
+		suzukiKasamiUtils.distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList(), false);
 
 		if (isKeyMine(key)) {
 			// distributed unlock (it was mine to begin with, so I can unlock it now)
@@ -589,4 +672,15 @@ public class ChordState {
 		return path.hashCode() % CHORD_SIZE;
 	}
 
+	public void setKeepAlive(KeepAlive keepAlive) {
+		this.keepAlive = keepAlive;
+	}
+
+	public KeepAlive getKeepAlive() {
+		return keepAlive;
+	}
+
+	public NodeKeepAlive getNodeKeepAlive() {
+		return nodeKeepAlive;
+	}
 }

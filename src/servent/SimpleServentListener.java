@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -107,6 +108,21 @@ public class SimpleServentListener implements Runnable, Cancellable {
 					break;
 				case GOODBYE:
 					messageHandler = new GoodbyeHandler(clientMessage);
+					break;
+				case PING:
+					messageHandler = new PingHandler(clientMessage);
+					break;
+				case PONG:
+					messageHandler = new PongHandler(clientMessage);
+					break;
+				case RECOVERY:
+					messageHandler = new RecoveryHandler(clientMessage);
+					break;
+				case CONTACT:
+					messageHandler = new ContactHandler(clientMessage);
+					break;
+				case CONTACT_SUCCESS:
+					messageHandler = new ContactSuccessHandler(clientMessage);
 					break;
 				}
 				

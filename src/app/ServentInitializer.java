@@ -92,7 +92,7 @@ public class ServentInitializer implements Runnable {
 			// first we need info about all nodes in the system from the bootstrap
 			// Suzuki lock
 			AppConfig.timestampedStandardPrint("Requiring Suzuki-Kasami token");
-			AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(broadcastPorts);
+			AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(broadcastPorts, false);
 			AppConfig.timestampedStandardPrint("Got token");
 
 			NewNodeMessage nnm = new NewNodeMessage(AppConfig.myServentInfo.getListenerPort(), someServentPort);

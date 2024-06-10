@@ -32,6 +32,8 @@ public interface Message extends Serializable {
 	 * Port number of the receiver of the message.
 	 */
 	int getReceiverPort();
+
+	void setReceiverPort(int receiverPort);
 	
 	/**
 	 * IP address of the receiver.

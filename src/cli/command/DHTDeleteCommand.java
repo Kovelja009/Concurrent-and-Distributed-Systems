@@ -16,7 +16,7 @@ public class DHTDeleteCommand implements CLICommand{
             String path = args;
             int key = AppConfig.chordState.hashFileName(path);
             // distributed lock
-            AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList());
+            AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList(), false);
 
             AppConfig.chordState.deleteValue(key, path, AppConfig.myServentInfo.getListenerPort());
         } catch (NumberFormatException e) {

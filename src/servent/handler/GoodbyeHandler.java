@@ -21,6 +21,7 @@ public class GoodbyeHandler implements MessageHandler{
 
                 AppConfig.getListener().stop();
                 AppConfig.getParser().stop();
+                AppConfig.getKeepAlive().stop();
 
             } else {
                 AppConfig.timestampedErrorPrint("Goodbye handler got a message that is not GOODBYE");
