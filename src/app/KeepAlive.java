@@ -1,6 +1,6 @@
 package app;
 
-import servent.message.ContactMessage;
+import servent.message.ComradeAskMessage;
 import servent.message.PingMessage;
 import servent.message.RecoveryMessage;
 import servent.message.util.MessageUtil;
@@ -52,7 +52,7 @@ public class KeepAlive implements Runnable, Cancellable {
             if (System.currentTimeMillis() - nodeKeepAlive.getTimestamp() > AppConfig.WEAK_LIMIT && !nodeKeepAlive.isDoneBroadcast()) {
                 nodeKeepAlive.setStatus(1);
                 nodeKeepAlive.setDoneBroadcast(true);
-                askForHelp();
+                askForHelp(predecessor.getListenerPort());
             }
 
             // if the timestamp is older than the strong limit, we set it to dead and trigger reorganization of the network
@@ -61,7 +61,7 @@ public class KeepAlive implements Runnable, Cancellable {
                 AppConfig.chordState.getSuzukiKasamiUtils().distributedLock(AppConfig.chordState.getAllNodeInfo().stream().map(ServentInfo::getListenerPort).toList(), true);
 
                 nodeKeepAlive.setStatus(2);
-                AppConfig.timestampedStandardPrint("Node: " + predecessor.getListenerPort() + " is dead");
+                AppConfig.timestampedStandardPrint("Node: " + predecessor.getListenerPort() + " is dead -> " + AppConfig.getRandomMessage());
 
                 // remove node from my network and also add it to the remove message
                 AppConfig.chordState.removeNode(predecessor);
@@ -99,8 +99,16 @@ public class KeepAlive implements Runnable, Cancellable {
         }
     }
 
-    private void askForHelp() {
-        AppConfig.timestampedStandardPrint("Asking for help");
+    private void askForHelp(int warningNode) {
+        AppConfig.timestampedStandardPrint("Asking for help of other comrades");
+
+        int myPort = AppConfig.myServentInfo.getListenerPort();
+        for (ServentInfo serventInfo : AppConfig.chordState.getAllNodeInfo()) {
+            if (serventInfo.getListenerPort() != myPort) {
+                ComradeAskMessage cam = new ComradeAskMessage(myPort, serventInfo.getListenerPort(), warningNode, myPort);
+                MessageUtil.sendMessage(cam);
+            }
+        }
     }
 
 

@@ -1,0 +1,2 @@
+11:23:30 - Couldn't send message: [0|1600|66||COMRADE_CONTACT|1100|28]
+11:23:30 - Couldn't send message: [0|1600|65||COMRADE_CONTACT|1300|4]

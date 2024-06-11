@@ -21,43 +21,10 @@ public class NodeKeepAlive {
     */
     private volatile boolean doneBroadcast;
 
-    /*
-    *  Successor timestamp is used to check whether the successor is alive
-    *  because we are sending him message to update the network
-    */
-    private volatile long successorTimestamp;
-
-    private volatile boolean successorAlive = true;
-
-    public int getSuccessorPort() {
-        return successorPort;
-    }
-
-    public void setSuccessorPort(int successorPort) {
-        this.successorPort = successorPort;
-    }
-
-    public long getSuccessorTimestamp() {
-        return successorTimestamp;
-    }
-
-    public void setSuccessorTimestamp(long successorTimestamp) {
-        this.successorTimestamp = successorTimestamp;
-    }
-
-    /*
-    * successorPort is used to send message to the successor
-    * if failed, reset timestamp and change successorPort
-    */
-    private volatile int successorPort;
-
     public NodeKeepAlive() {
         this.status = 0;
         this.timestamp = System.currentTimeMillis();
         this.doneBroadcast = false;
-        this.successorTimestamp = System.currentTimeMillis();
-        this.successorPort = -1;
-        this.successorAlive = false;
     }
 
     public int getStatus() {
@@ -76,10 +43,6 @@ public class NodeKeepAlive {
         this.status = status;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public void setDoneBroadcast(boolean doneBroadcast) {
         this.doneBroadcast = doneBroadcast;
     }
@@ -88,15 +51,4 @@ public class NodeKeepAlive {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public void resetSuccessorTimestamp() {
-        this.successorTimestamp = System.currentTimeMillis();
-    }
-
-    public boolean isSuccessorAlive() {
-        return successorAlive;
-    }
-
-    public void setSuccessorAlive(boolean successorAlive) {
-        this.successorAlive = successorAlive;
-    }
 }

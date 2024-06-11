@@ -118,12 +118,18 @@ public class SimpleServentListener implements Runnable, Cancellable {
 				case RECOVERY:
 					messageHandler = new RecoveryHandler(clientMessage);
 					break;
-				case CONTACT:
-					messageHandler = new ContactHandler(clientMessage);
-					break;
-				case CONTACT_SUCCESS:
-					messageHandler = new ContactSuccessHandler(clientMessage);
-					break;
+				case COMRADE_ASK:
+						messageHandler = new ComradeAskHandler(clientMessage);
+						break;
+				case COMRADE_ANSWER:
+						messageHandler = new ComradeAnswerHandler(clientMessage);
+						break;
+				case COMRADE_CONTACT:
+						messageHandler = new ComradeContactHandler(clientMessage);
+						break;
+				case COMRADE_ALIVE:
+						messageHandler = new ComradeAliveHandler(clientMessage);
+						break;
 				}
 				
 				threadPool.submit(messageHandler);

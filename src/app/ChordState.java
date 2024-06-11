@@ -132,62 +132,6 @@ public class ChordState {
 			}
 		}
 	}
-
-//	public static void trySendingRemoveMessage(List<ServentInfo> toBeRemoved, int originalTokenHolderPort) {
-//
-//		// while not successful send message to the first successor and wait for the STRONG_LIMIT for response, after that
-//		// if not successful, add it to the toBeRemoved list and remove it from your list, reset the timestamp and contact port
-//		// if possible send message to the successor with original port
-//		while (true) {
-//			if (AppConfig.chordState.getSuccessorTable().length == 0) {
-//				return;
-//			}
-//			// take next port if possible
-//			int nextNodePort = AppConfig.chordState.getNextNodePort();
-//			ServentInfo nextNode = AppConfig.chordState.getNodeInfoByPort(nextNodePort);
-//			AppConfig.timestampedStandardPrint("Trying to send remove message to: " + nextNodePort);
-//			nodeKeepAlive.setSuccessorPort(nextNodePort);
-//			nodeKeepAlive.resetSuccessorTimestamp();
-//			nodeKeepAlive.setSuccessorAlive(false);
-//
-//			// send CONTACT message to try and contact successor
-//			ContactMessage cm = new ContactMessage(AppConfig.myServentInfo.getListenerPort(), nextNodePort);
-//			MessageUtil.sendMessage(cm);
-//
-//
-//			while (System.currentTimeMillis() - nodeKeepAlive.getSuccessorTimestamp() < AppConfig.STRONG_LIMIT) {
-//				// wait for response
-//				try {
-//					// we were waiting too long, add him to the dead list and try someone else
-//					if (System.currentTimeMillis() - nodeKeepAlive.getSuccessorTimestamp() > AppConfig.STRONG_LIMIT) {
-//						toBeRemoved.add(nextNode);
-//						AppConfig.chordState.removeNode(nextNode);
-//					} // we have next successor to send message to
-//					else if (nodeKeepAlive.isSuccessorAlive()) {
-//						// send Recovery message
-//						RecoveryMessage recoveryMessage = new RecoveryMessage(AppConfig.myServentInfo.getListenerPort(), nextNodePort, toBeRemoved, originalTokenHolderPort);
-//						MessageUtil.sendMessage(recoveryMessage);
-//
-//						// reset everything
-//						nodeKeepAlive.setSuccessorPort(-1);
-//						nodeKeepAlive.resetSuccessorTimestamp();
-//						nodeKeepAlive.setSuccessorAlive(false);
-//
-//						return;
-//					}
-//
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//
-//	}
-	
-	public int getChordLevel() {
-		return chordLevel;
-	}
 	
 	public ServentInfo[] getSuccessorTable() {
 		return successorTable;
